@@ -1,0 +1,178 @@
+* {
+  box-sizing: border-box;
+  font-family: "Noto Sans TC", sans-serif;
+  padding: 0;
+  margin: 0;
+  line-height: 1.5;
+}
+.robot {
+  font-family: "Roboto", sans-serif;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin: 0;
+  line-height: 1.2;
+}
+h1 {
+  font-size: 36px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+}
+h2 {
+  font-size: 32px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+h3 {
+  font-size: 28px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+}
+h4 {
+  font-size: 20px;
+  font-weight: 500;
+}
+p {
+  font-size: 20px;
+  font-weight: 400;
+}
+ul,
+li {
+  padding: 0;
+  margin: 0;
+  list-style: unset;
+}
+li {
+  display: block;
+}
+a {
+  text-decoration: unset;
+}
+img {
+  max-width: 100%;
+}
+
+input,
+select,
+textarea,
+button {
+  border: unset;
+  &:focus {
+    outline: none;
+  }
+}
+
+.container {
+  max-width: 1344px;
+  padding-left: 12px;
+  padding-right: 12px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.header {
+  height: 80px;
+  @media (min-width: 768px) {
+    height: 100px;
+  }
+}
+.footer {
+  background: #353535;
+  &-link {
+    gap: 20px 100px;
+    a {
+      width: 100%;
+      text-align: center;
+      @media (min-width: 768px) {
+        width: auto;
+      }
+    }
+  }
+}
+.main {
+  overflow: hidden;
+  padding-top: 80px;
+  @media (min-width: 768px) {
+    padding-top: 100px;
+  }
+}
+
+.p2 {
+  font-size: 20px;
+  @media (min-width: 768px) {
+    font-size: 28px;
+  }
+}
+.btn1 {
+  width: 100%;
+  @media (min-width: 768px) {
+    width: auto;
+  }
+}
+.card {
+  border: unset;
+  box-shadow: 0px 0px 10px rgba(121, 161, 179, 0.5);
+  height: 100%;
+}
+.tgl {
+  display: none;
+  &:after,
+  &:before,
+  & *,
+  & *:after,
+  & *:before,
+  & + .tgl-btn {
+    box-sizing: border-box;
+    &::selection {
+      background: none;
+    }
+  }
+  + .tgl-btn {
+    outline: 0;
+    display: block;
+    width: 4em;
+    height: 2em;
+    position: relative;
+    cursor: pointer;
+    user-select: none;
+    &:after,
+    &:before {
+      position: relative;
+      display: block;
+      content: "";
+      width: 50%;
+      height: 100%;
+    }
+    &:after {
+      left: 0;
+    }
+    &:before {
+      display: none;
+    }
+  }
+
+  &:checked + .tgl-btn:after {
+    left: 50%;
+  }
+}
+.tgl-light {
+  + .tgl-btn {
+    background: #f0f0f0;
+    border-radius: 2em;
+    padding: 2px;
+    transition: all 0.4s ease;
+    &:after {
+      border-radius: 50%;
+      background: #fff;
+      transition: all 0.2s ease;
+    }
+  }
+
+  &:checked + .tgl-btn {
+    background: #9fd6ae;
+  }
+}

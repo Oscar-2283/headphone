@@ -1,0 +1,20 @@
+.obj-cover {
+  object-fit: cover;
+}
+.ovf-hidden {
+  overflow: hidden;
+}
+.banner-img {
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
+}
+.lh-15 {
+  line-height: 1.5;
+}
+
+.w-full-md {
+  @media (max-width: 768px) {
+    width: 100%;
+  }
+}
