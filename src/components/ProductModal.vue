@@ -96,14 +96,17 @@
               </div>
               <div class="row gx-2">
                 <div class="mb-3 col-md-6">
-                  <label for="category" class="form-label">分類</label
-                  ><input
-                    type="text"
-                    class="form-control"
+                  <label for="category" class="form-label">分類</label>
+                  <select
                     id="category"
+                    class="form-control"
                     v-model="productData.category"
-                    placeholder="請輸入分類"
-                  />
+                  >
+                    <option value="有線耳罩式耳機">有線耳罩式耳機</option>
+                    <option value="無線耳罩式耳機">無線耳罩式耳機</option>
+                    <option value="有線耳塞式耳機">有線耳塞式耳機</option>
+                    <option value="無線耳塞式耳機">無線耳塞式耳機</option>
+                  </select>
                 </div>
                 <div class="mb-3 col-md-6">
                   <label for="price" class="form-label">單位</label

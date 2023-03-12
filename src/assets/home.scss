@@ -17,6 +17,11 @@
       fill: #da6a19;
     }
   }
+  &.active {
+    svg path {
+      fill: #da6a19;
+    }
+  }
 }
 .max-w-526 {
   @media (min-width: 768px) {

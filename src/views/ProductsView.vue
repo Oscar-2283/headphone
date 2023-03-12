@@ -1,12 +1,3 @@
-<script>
-import { RouterLink } from "vue-router";
-export default {
-  methods: {},
-  components: {
-    RouterLink,
-  },
-};
-</script>
 <template>
   <main>
     <div
@@ -31,6 +22,7 @@ export default {
                   <input
                     class="w-100 border-bottom border-dark bg-transparent p-2"
                     type="number"
+                    v-model="minPrice"
                     placeholder="最低"
                   />
                 </div>
@@ -39,6 +31,7 @@ export default {
                   <input
                     class="w-100 border-bottom border-dark bg-transparent p-2"
                     type="number"
+                    v-model="maxPrice"
                     placeholder="最高"
                   />
                 </div>
@@ -48,13 +41,19 @@ export default {
               <h4 class="mb-2">商品類型</h4>
               <!-- 電腦選單 -->
               <ul class="px-3 d-md-block d-none">
-                <li class="mb-1"><a href="">全部</a></li>
-                <li class="mb-1"><a href="">[無線]耳罩式耳機</a></li>
-                <li class="mb-1"><a href="">[有線]耳罩式耳機</a></li>
-                <li class="mb-1"><a href="">[有線]耳塞式耳機</a></li>
-                <li class="mb-1"><a href="">[無線]耳塞式耳機</a></li>
-                <li class="mb-1"><a href="">主動式消噪耳機</a></li>
-                <li class="mb-1"><a href="">監聽耳機</a></li>
+                <li class="mb-1">
+                  <a href="#" @click.prevent="() => (selectedCategory = '全部')"
+                    >全部</a
+                  >
+                </li>
+
+                <li class="mb-1" v-for="item in categories" :key="item">
+                  <a
+                    href="#"
+                    @click.prevent="() => (selectedCategory = item)"
+                    >{{ item }}</a
+                  >
+                </li>
               </ul>
               <!-- 手機選單 -->
               <select
@@ -78,10 +77,10 @@ export default {
             <div class="col-md-4 col-12">
               <select
                 class="w-100 p-2 border border-dark rounded-3 bg-primary bg-opacity-50"
+                v-model="selectedSort"
               >
-                <option value="">按最新產品順序</option>
-                <option value="">低到高</option>
-                <option value="">高到低</option>
+                <option value="價格低到高">價格低到高</option>
+                <option value="價格高到低">價格高到低</option>
               </select>
             </div>
             <div class="col-md-8 col-12">
@@ -89,26 +88,40 @@ export default {
             </div>
           </div>
           <div class="row gy-4 py-4">
-            <div class="col-lg-4 col-md-6 col-12" v-for="i in 6" :key="i">
-              <RouterLink to="/product/6789" class="card overflow-hidden">
-                <div style="position: relative">
-                  <img
-                    src="/src/assets/img/img_product.png"
-                    class="card-img-top"
-                    alt=""
-                  />
+            <div
+              class="col-lg-4 col-md-6 col-12"
+              v-for="product in filteredProducts"
+              :key="product.id"
+            >
+              <RouterLink
+                :to="`/product/${product.id}`"
+                class="card overflow-hidden"
+              >
+                <div style="position: relative; background: #f1f1f1">
+                  <img :src="product.imageUrl" class="card-img-top" alt="" />
                   <button
                     type="button"
-                    @click.prevent=""
-                    class="btn btn-primary text-white position-absolute bottom-0 end-0"
+                    @click.prevent="() => addToCart(product.id)"
+                    class="btn btn-primary text-white position-absolute bottom-0 end-0 card-button"
                   >
                     加入購物車
                   </button>
                 </div>
-                <div class="card-body">
-                  <h3 class="mb-2 text-center text-title">ATH-W5000</h3>
-                  <p class="mb-2 text-title">NT$ 30000</p>
-                  <h4 class="text-text">Arctis Nova 7 Wireless</h4>
+                <div class="card-body d-flex flex-column">
+                  <h4 class="mb-2 text-title">
+                    {{ product.title }}
+                  </h4>
+                  <h4 class="text-text mb-2 fs-6">
+                    {{ product.description1 }}
+                  </h4>
+                  <div class="d-flex align-items-center gap-3 mt-auto mb-2">
+                    <del class="text-title text-muted fs-6"
+                      >NT$ {{ currency(product.origin_price) }}</del
+                    >
+                    <p class="text-title fs-6">
+                      NT$ {{ currency(product.price) }}
+                    </p>
+                  </div>
                 </div>
               </RouterLink>
             </div>
@@ -118,3 +131,101 @@ export default {
     </div>
   </main>
 </template>
+<script>
+const { VITE_URL, VITE_PATH } = import.meta.env;
+import { mapActions, mapState } from "pinia";
+import cartStore from "@/stores/cart";
+// import pagination from "@/components/PaginationView.vue";
+export default {
+  inject: ["currency"],
+  data() {
+    return {
+      products: [],
+      categories: [],
+      filtertype: [],
+      selectedSort: "價格高到低",
+      selectedCategory: "全部",
+      minPrice: null,
+      maxPrice: null,
+    };
+  },
+  methods: {
+    getProducts() {
+      this.$http
+        .get(`${VITE_URL}/api/${VITE_PATH}/products/all`)
+        .then((res) => {
+          this.products = res.data.products;
+          this.getCategories();
+        })
+        .catch((err) => console.dir(err));
+    },
+    getCategories() {
+      const categories = [
+        ...new Set(this.products.map((item) => item.category)),
+      ];
+      this.categories = categories;
+    },
+    filterCategories(type) {
+      const categories = this.products.filter((item) => item.category === type);
+      console.log(categories);
+      this.filtertype = categories;
+    },
+    addToCart(id, qty = 1) {
+      const data = {
+        product_id: id,
+        qty,
+      };
+      this.$http
+        .post(`${VITE_URL}/api/${VITE_PATH}/cart`, { data })
+        .then((res) => {
+          console.log(res.data);
+          this.getCart();
+        })
+        .catch((err) => console.log(err.data));
+    },
+    ...mapActions(cartStore, ["getCart"]),
+  },
+  components: {},
+  mounted() {
+    this.getProducts();
+  },
+  computed: {
+    ...mapState(cartStore, ["carts"]),
+    filteredProducts() {
+      let products =
+        this.selectedCategory === "全部"
+          ? this.products
+          : this.products.filter(
+              (product) => product.category === this.selectedCategory
+            );
+      if (this.minPrice !== null) {
+        products = products.filter((product) => product.price >= this.minPrice);
+      }
+      if (this.maxPrice !== null) {
+        products = products.filter((product) => product.price <= this.maxPrice);
+      }
+
+      if (this.selectedSort === "價格高到低") {
+        return products.sort((a, b) => b.price - a.price);
+      } else if (this.selectedSort === "價格低到高") {
+        return products.sort((a, b) => a.price - b.price);
+      } else {
+        return products;
+      }
+    },
+  },
+};
+</script>
+
+<style lang="scss">
+.text-text {
+  display: block;
+  letter-spacing: 0;
+  line-height: 20px;
+  overflow: hidden;
+  text-overflow: clip;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+</style>

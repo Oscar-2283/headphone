@@ -141,6 +141,13 @@
     </div>
   </main>
 </template>
+<script>
+export default {
+  mounted() {
+    console.log(this.$route.params.id);
+  },
+};
+</script>
 <style lang="scss">
 .nav-tabs {
   .nav-link {
