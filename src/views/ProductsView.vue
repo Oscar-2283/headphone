@@ -70,6 +70,7 @@
             </div>
           </div>
         </div>
+
         <div class="col-md-8 col-12">
           <div
             class="row gy-2 border-bottom border-dark-subtle align-items-center py-2 px-md-0 px-3"
@@ -79,6 +80,7 @@
                 class="w-100 p-2 border border-dark rounded-3 bg-primary bg-opacity-50"
                 v-model="selectedSort"
               >
+                <option value="照順序排列">照順序排列</option>
                 <option value="價格低到高">價格低到高</option>
                 <option value="價格高到低">價格高到低</option>
               </select>
@@ -87,43 +89,55 @@
               <h4>[無線]耳罩式耳機</h4>
             </div>
           </div>
-          <div class="row gy-4 py-4">
-            <div
-              class="col-lg-4 col-md-6 col-12"
-              v-for="product in filteredProducts"
-              :key="product.id"
-            >
-              <RouterLink
-                :to="`/product/${product.id}`"
-                class="card overflow-hidden"
+          <div v-if="filteredProducts[filteredProducts.length - 1]">
+            <div class="row gy-4 py-4">
+              <div
+                class="col-lg-4 col-md-6 col-12"
+                v-for="product in filteredProducts"
+                :key="product.id"
               >
-                <div style="position: relative; background: #f1f1f1">
-                  <img :src="product.imageUrl" class="card-img-top" alt="" />
-                  <button
-                    type="button"
-                    @click.prevent="() => addToCart(product.id)"
-                    class="btn btn-primary text-white position-absolute bottom-0 end-0 card-button"
-                  >
-                    加入購物車
-                  </button>
-                </div>
-                <div class="card-body d-flex flex-column">
-                  <h4 class="mb-2 text-title">
-                    {{ product.title }}
-                  </h4>
-                  <h4 class="text-text mb-2 fs-6">
-                    {{ product.description1 }}
-                  </h4>
-                  <div class="d-flex align-items-center gap-3 mt-auto mb-2">
-                    <del class="text-title text-muted fs-6"
-                      >NT$ {{ currency(product.origin_price) }}</del
+                <RouterLink
+                  :to="`/product/${product.id}`"
+                  class="card overflow-hidden"
+                >
+                  <div style="position: relative; background: #f1f1f1">
+                    <img :src="product.imageUrl" class="card-img-top" alt="" />
+                    <button
+                      type="button"
+                      @click.prevent="() => addToCart(product.id)"
+                      class="btn btn-primary text-white position-absolute bottom-0 end-0 card-button"
                     >
-                    <p class="text-title fs-6">
-                      NT$ {{ currency(product.price) }}
-                    </p>
+                      加入購物車
+                    </button>
                   </div>
-                </div>
-              </RouterLink>
+                  <div class="card-body d-flex flex-column">
+                    <h4 class="mb-2 text-title">
+                      {{ product.title }}
+                    </h4>
+                    <h4 class="text-text mb-2 fs-6">
+                      {{ product.description1 }}
+                    </h4>
+                    <div class="d-flex align-items-center gap-3 mt-auto mb-2">
+                      <del class="text-title text-muted fs-6"
+                        >NT$ {{ currency(product.origin_price) }}</del
+                      >
+                      <p class="text-title fs-6">
+                        NT$ {{ currency(product.price) }}
+                      </p>
+                    </div>
+                  </div>
+                </RouterLink>
+              </div>
+            </div>
+            <pagination
+              v-if="pagination.total_pages !== 1"
+              :pages="pagination"
+              @updatePage="getProducts"
+            ></pagination>
+          </div>
+          <div v-else>
+            <div class="text-center mt-4">
+              <h3>找不到產品</h3>
             </div>
           </div>
         </div>
@@ -135,27 +149,36 @@
 const { VITE_URL, VITE_PATH } = import.meta.env;
 import { mapActions, mapState } from "pinia";
 import cartStore from "@/stores/cart";
-// import pagination from "@/components/PaginationView.vue";
+import pagination from "@/components/PaginationView.vue";
 export default {
   inject: ["currency"],
   data() {
     return {
       products: [],
+      products666: [],
       categories: [],
       filtertype: [],
       selectedSort: "價格高到低",
       selectedCategory: "全部",
       minPrice: null,
       maxPrice: null,
+      pagination: {
+        total_pages: 1,
+        current_page: 1,
+        has_pre: false,
+        has_next: false,
+        category: "",
+      },
     };
   },
   methods: {
-    getProducts() {
+    getProducts(page = 1) {
       this.$http
         .get(`${VITE_URL}/api/${VITE_PATH}/products/all`)
         .then((res) => {
           this.products = res.data.products;
           this.getCategories();
+          this.setPagination(page);
         })
         .catch((err) => console.dir(err));
     },
@@ -164,11 +187,6 @@ export default {
         ...new Set(this.products.map((item) => item.category)),
       ];
       this.categories = categories;
-    },
-    filterCategories(type) {
-      const categories = this.products.filter((item) => item.category === type);
-      console.log(categories);
-      this.filtertype = categories;
     },
     addToCart(id, qty = 1) {
       const data = {
@@ -183,9 +201,37 @@ export default {
         })
         .catch((err) => console.log(err.data));
     },
+    setPagination(page) {
+      const itemsPerPage = 9;
+      let filterProduct = [];
+      if (this.selectedCategory === "全部") {
+        filterProduct = this.products;
+      } else {
+        filterProduct = this.products.filter(
+          (item) => item.category === this.selectedCategory
+        );
+      }
+      const totalItems = filterProduct.length;
+      const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+      const startIndex = (page - 1) * itemsPerPage;
+      const endIndex = startIndex + itemsPerPage;
+      const slicedProducts = this.products.slice(startIndex, endIndex);
+
+      this.pagination = {
+        total_pages: totalPages,
+        current_page: page,
+        has_pre: page !== 1,
+        has_next: page < totalPages,
+        category: "",
+      };
+      this.products = slicedProducts;
+    },
     ...mapActions(cartStore, ["getCart"]),
   },
-  components: {},
+  components: {
+    pagination,
+  },
   mounted() {
     this.getProducts();
   },
@@ -211,6 +257,24 @@ export default {
         return products.sort((a, b) => a.price - b.price);
       } else {
         return products;
+      }
+    },
+  },
+  watch: {
+    selectedCategory() {
+      const isEmpty = this.products.filter(
+        (product) => product.category === this.selectedCategory
+      );
+      if (!isEmpty.length) {
+        this.getProducts(1);
+        this.$http
+          .get(`${VITE_URL}/api/${VITE_PATH}/products/all`)
+          .then((res) => {
+            this.products = res.data.products;
+          })
+          .catch((err) => console.dir(err));
+      } else {
+        return;
       }
     },
   },

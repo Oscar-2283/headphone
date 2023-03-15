@@ -1,52 +1,9 @@
-<script>
-import gsap from "gsap";
-import ScrollTrigger from "gsap/ScrollTrigger";
-gsap.registerPlugin(ScrollTrigger);
-export default {
-  methods: {
-    initGsap() {
-      document.querySelectorAll("[data-scroll]").forEach((item) => {
-        gsap.to(item, {
-          scrollTrigger: {
-            trigger: item,
-            start: "top 70%",
-            onEnter: () => {
-              item.classList.add("is-inview");
-            },
-          },
-        });
-      });
-    },
-  },
-  mounted() {
-    this.initGsap();
-  },
-};
-</script>
-
-<style lang="scss">
-.text-bg {
-  &::before {
-    content: "";
-    position: absolute;
-    right: 0;
-    bottom: 50%;
-    background: url("@/assets/img/material-bg.png");
-    width: 100vw;
-    transform: translate(30%, 50%);
-    height: 60%;
-    z-index: -1;
-  }
-}
-</style>
 <template>
   <div class="ovf-hidden">
     <div
       class="banner-img d-flex justify-content-center align-items-center"
-      style="
-        height: 500px;
-        background-image: url('/src/assets/img/about-banner.jpg');
-      "
+      style="height: 500px"
+      :style="{ backgroundImage: `url(${bannerImg})` }"
     >
       <h1 class="text-white">關於我們</h1>
     </div>
@@ -104,3 +61,49 @@ export default {
     </div>
   </div>
 </template>
+<script>
+import gsap from "gsap";
+import ScrollTrigger from "gsap/ScrollTrigger";
+import bannerImg from "@/assets/img/about-banner.jpg";
+gsap.registerPlugin(ScrollTrigger);
+export default {
+  data() {
+    return {
+      bannerImg: bannerImg,
+    };
+  },
+  methods: {
+    initGsap() {
+      document.querySelectorAll("[data-scroll]").forEach((item) => {
+        gsap.to(item, {
+          scrollTrigger: {
+            trigger: item,
+            start: "top 70%",
+            onEnter: () => {
+              item.classList.add("is-inview");
+            },
+          },
+        });
+      });
+    },
+  },
+  mounted() {
+    this.initGsap();
+  },
+};
+</script>
+<style lang="scss">
+.text-bg {
+  &::before {
+    content: "";
+    position: absolute;
+    right: 0;
+    bottom: 50%;
+    background: url("@/assets/img/material-bg.png");
+    width: 100vw;
+    transform: translate(30%, 50%);
+    height: 60%;
+    z-index: -1;
+  }
+}
+</style>

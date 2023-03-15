@@ -14,29 +14,52 @@
     </div>
     <div class="mt-4">
       <ul>
-        <li class="row g-4 align-items-center">
+        <li
+          class="row g-4 align-items-center"
+          v-for="item in carts"
+          :key="item.id"
+        >
           <div class="col-3 p-0">
             <img
               style="border-radius: 8px"
-              src="@/assets/img/img_product.png"
+              :src="item.product.imageUrl"
               alt=""
             />
           </div>
           <div class="col-4">
-            <h4 class="p2">ATH-W5000</h4>
-            <p>$30,000</p>
+            <h4 class="p2">{{ item.product.title }}</h4>
+            <p>${{ item.product.price }}</p>
           </div>
           <div class="col-4 d-flex carNum">
             <button style="background: transparent">
-              <span class="material-symbols-outlined"> add </span>
+              <span
+                class="material-symbols-outlined"
+                @click="() => updateCartItemQty(item, 1)"
+              >
+                add
+              </span>
             </button>
-            <input min="1" type="number" value="1" />
-            <button style="background: transparent">
+            <input
+              min="1"
+              max="10"
+              type="number"
+              class="w-100"
+              v-model="item.qty"
+            />
+
+            <button
+              style="background: transparent"
+              @click="() => updateCartItemQty(item, -1)"
+            >
               <span class="material-symbols-outlined"> remove </span>
             </button>
           </div>
           <div class="col-1">
-            <span class="material-symbols-outlined" style="cursor: pointer">
+            <span
+              class="material-symbols-outlined"
+              style="cursor: pointer"
+              @click="() => deleteCart(item.id)"
+            >
               delete
             </span>
           </div>
@@ -46,7 +69,7 @@
     <div class="mt-5">
       <div class="d-flex justify-content-between w-100">
         <h3>Total</h3>
-        <h3>$60000</h3>
+        <h3>${{ total }}</h3>
       </div>
     </div>
     <div class="mt-4">
@@ -60,7 +83,21 @@
   </div>
 </template>
 <script>
-export default {};
+import { mapActions, mapState } from "pinia";
+import cartStore from "../stores/cart";
+export default {
+  methods: {
+    ...mapActions(cartStore, [
+      "getCart",
+      "updateCart",
+      "deleteCart",
+      "updateCartItemQty",
+    ]),
+  },
+  computed: {
+    ...mapState(cartStore, ["carts", "total"]),
+  },
+};
 </script>
 <style lang="scss">
 .aslideCart {

@@ -11,15 +11,22 @@ import "bootstrap";
 import CKEditor from "@ckeditor/ckeditor5-vue";
 import VueSweetalert2 from "vue-sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";
+
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import "swiper/css/scrollbar";
 import "./assets/all.scss";
 import { date, currency } from "./methods/filters";
+
 const app = createApp(App);
 
-app.use(createPinia());
-app.use(router);
-app.use(VueAxios, axios);
-app.use(CKEditor);
-app.use(VueSweetalert2);
+app
+  .use(createPinia())
+  .use(router)
+  .use(VueAxios, axios)
+  .use(CKEditor)
+  .use(VueSweetalert2);
 
 app.component("VLoading", Loading);
 

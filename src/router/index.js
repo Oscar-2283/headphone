@@ -77,14 +77,15 @@ const router = createRouter({
           path: "article",
           component: () => import("../views/admin/ArticleEdit.vue"),
         },
-        {
-          path: "test",
-          component: () => import("../views/admin/editTest.vue"),
-        },
       ],
     },
   ],
   linkActiveClass: "active",
+  beforeRouteUpdate: async function (to, from, next) {
+    console.log(this);
+
+    next();
+  },
 });
 
 export default router;

@@ -160,6 +160,7 @@ export default {
     closeAsideCart() {
       this.showAsideCart = false;
     },
+
     ...mapActions(cartStore, ["getCart"]),
   },
   components: {

@@ -1,27 +1,38 @@
 <template>
   <main class="main overflow-hidden">
     <div class="container py-8">
-      <div class="row justify-content-center align-items-center g-3">
+      <div class="row justify-content-center align-items-center g-8">
         <div class="col-md-6 col-sm-10 col-12">
-          <img
-            class="w-100 object-fit-cover"
-            src="/src/assets/img/img_product.png"
-            alt=""
-            style="height: 400px; object-fit: cover"
-          />
+          <div class="border border-dark-subtle">
+            <img
+              class="w-100 object-fit-cover"
+              :src="product.imageUrl"
+              alt=""
+              style="object-fit: cover"
+            />
+          </div>
         </div>
         <div class="col-md-6 col-sm-10 col-12">
-          <h2 class="mb-4">ATH-W5000</h2>
-          <p class="mb-3">長時間舒適輕薄佩戴</p>
-          <p class="mb-3">NT30,000</p>
+          <h2 class="mb-4">{{ product.title }}</h2>
+          <ul class="mb-3" style="list-style: disc; padding-left: 1em">
+            <li
+              style="list-style: disc"
+              v-for="(item, index) in product.instructions"
+              :key="'text' + index"
+            >
+              {{ item }}
+            </li>
+          </ul>
+          <div class="d-flex align-items-center gap-3 mt-auto mb-3">
+            <del
+              class="text-title text-muted"
+              v-if="product.origin_price !== product.price"
+              >NT$ {{ currency(product.origin_price) }}</del
+            >
+            <p class="text-title p2">NT$ {{ currency(product.price) }}</p>
+          </div>
+          <hr />
           <div class="row gx-5 gy-2 align-items-center mb-3">
-            <div class="col-md-6 col-12">
-              <select
-                class="w-100 p-2 border border-dark rounded-3 bg-primary bg-opacity-50"
-              >
-                <option value="" v-for="i in 10" :key="i">{{ i }}</option>
-              </select>
-            </div>
             <div class="col-md-6 col-12">
               <button
                 type="button"
@@ -31,7 +42,6 @@
               </button>
             </div>
           </div>
-          <p style="font-size: 18px">小記NT30000</p>
         </div>
       </div>
       <!-- 內容 -->
@@ -76,31 +86,14 @@
                 aria-labelledby="pills-intro-tab"
               >
                 <h2 class="mb-5 text-center">產品介紹</h2>
-                <div class="mb-4">
-                  <h3 class="mb-2">Nova聲學系統</h3>
+                <div
+                  class="mb-4"
+                  v-for="(item, num) in product.introQuantity"
+                  :key="'intro' + num"
+                >
+                  <h3 class="mb-2">{{ item.intro }}</h3>
                   <p>
-                    藉助一流的 Nova
-                    聲學系統和功能強大的自訂設計不失真驅動程式，挑戰您對遊戲耳機的認知。驅動器與
-                    SteelSeries Sonar
-                    音訊軟體套件配合使用時，您會聽到清脆無比的高音、精準的中音和深沉的低音。
-                  </p>
-                </div>
-                <div class="mb-4">
-                  <h3 class="mb-2">多平台支援，同時無線</h3>
-                  <p>
-                    用自己的方式玩遊戲和溝通。使用袖珍型 USB-C
-                    硬體鎖在多台裝置之間無縫切換，為您的 PC、Mac、PlayStation 或
-                    Switch 帶來 2.4GHz 無線網路。
-                  </p>
-                </div>
-                <div class="mb-4">
-                  <h3 class="mb-2">ComfortMAX 系統</h3>
-                  <p>
-                    Arctis Nova 7
-                    無線耳機非常適合長時間使用，具有擴充的配件選項和 4
-                    個調整點。使用全新高度可調的旋轉耳罩、彈性頭戴式耳帶和透氣的
-                    AirWeave 記憶泡沫耳墊，輕鬆找到完美貼合感。全新設計圍繞 PVD
-                    塗層鋼製頭帶構建，比前幾代產品輕 14%。
+                    {{ item.description }}
                   </p>
                 </div>
               </div>
@@ -115,20 +108,20 @@
                   <table class="table table-striped">
                     <tbody>
                       <tr>
-                        <td class="w-25">耳機類型</td>
-                        <td class="w-75">開放式耳罩</td>
+                        <td class="w-25">型式</td>
+                        <td class="w-75">{{ product.headPhoneType }}</td>
                       </tr>
                       <tr>
-                        <td>輸出感度</td>
-                        <td>耳機：100dB/mW；麥克風：-57dB</td>
+                        <td>驅動單體</td>
+                        <td>{{ product.drive }}</td>
                       </tr>
                       <tr>
-                        <td>耳機類型</td>
-                        <td>開放式耳罩</td>
+                        <td>頻率響應</td>
+                        <td>{{ product.feq }}</td>
                       </tr>
                       <tr>
-                        <td>重量</td>
-                        <td>264g</td>
+                        <td>靈敏度 (dB/mW)</td>
+                        <td>{{ product.dB }}</td>
                       </tr>
                     </tbody>
                   </table>
@@ -138,13 +131,66 @@
           </div>
         </div>
       </div>
+      <!-- swiper -->
+      <Swiper ref="mySwiper" :options="swiperOptions">
+        <SwiperSlide>Slide 1</SwiperSlide>
+        <SwiperSlide>Slide 2</SwiperSlide>
+        <SwiperSlide>Slide 2</SwiperSlide>
+        <SwiperSlide>Slide 2</SwiperSlide>
+        <SwiperSlide>Slide 3</SwiperSlide>
+      </Swiper>
     </div>
   </main>
 </template>
 <script>
+const { VITE_URL, VITE_PATH } = import.meta.env;
+import { Swiper, SwiperSlide } from "swiper/vue";
+import { Navigation, Pagination, A11y } from "swiper";
 export default {
+  inject: ["currency"],
+  components: {
+    Swiper,
+    SwiperSlide,
+  },
+  data() {
+    return {
+      product: {},
+      modules: [Navigation, Pagination, A11y],
+      swiperOptions: {
+        modules: [Navigation, Pagination],
+        slidesPerView: 3,
+        spaceBetween: 50,
+        navigation: {
+          nextEl: ".swiper-button-next",
+          prevEl: ".swiper-button-prev",
+        },
+        pagination: {
+          el: ".swiper-pagination",
+          clickable: true,
+        },
+      },
+    };
+  },
+  methods: {
+    getProduct() {
+      this.isLoading = true;
+      this.$http
+        .get(`${VITE_URL}/api/${VITE_PATH}/product/${this.$route.params.id}`)
+        .then((res) => {
+          this.isLoading = false;
+          this.product = res.data.product;
+          console.log(res.data);
+          console.log(this.product);
+        })
+        .catch((err) => {
+          this.isLoading = false;
+          this.$swal(err.response.data.message);
+        });
+    },
+  },
+
   mounted() {
-    console.log(this.$route.params.id);
+    this.getProduct();
   },
 };
 </script>

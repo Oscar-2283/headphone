@@ -14,6 +14,7 @@
             <span v-if="isNew">新增產品</span>
             <span v-else>編輯產品</span>
           </h5>
+
           <button
             type="button"
             class="btn-close"
@@ -119,7 +120,7 @@
                   />
                 </div>
               </div>
-              <div class="row gx-2">
+              <div class="row gx-2 mb-3">
                 <div class="mb-3 col-md-6">
                   <label for="origin_price" class="form-label">原價</label
                   ><input
@@ -143,46 +144,76 @@
                   />
                 </div>
               </div>
-              <hr />
-              <div>
-                <div class="d-flex justify-content-between align-items-center">
-                  <h3 class="mb-3">產品介紹</h3>
-                  <button
-                    type="button"
-                    class="btn btn-primary"
-                    @click="() => addIntro()"
-                  >
-                    新增介紹
-                  </button>
-                </div>
-                <div v-for="i in introQuantity" :key="'intro' + i">
-                  <div class="mb-3">
-                    <label :for="'description' + i" class="form-label">{{
-                      "產品描述" + i
-                    }}</label
-                    ><textarea
-                      type="text"
-                      class="form-control"
-                      :id="'description' + i"
-                      placeholder="請輸入產品描述"
-                      v-model="productData[`description${i}`]"
-                    ></textarea>
-                  </div>
-                  <div class="mb-3">
-                    <label :for="'content' + i" class="form-label">{{
-                      "說明內容" + i
-                    }}</label
-                    ><textarea
-                      type="text"
-                      class="form-control"
-                      :id="'content' + i"
-                      v-model="productData[`content${i}`]"
-                      placeholder="請輸入產品說明內容"
-                      style="height: 38px"
-                    ></textarea>
-                  </div>
+              <div
+                class="d-flex justify-content-between align-items-center mb-3"
+              >
+                <h3 class="mb-3">產品簡介</h3>
+                <button
+                  type="button"
+                  class="btn btn-primary"
+                  @click="() => addInstruction()"
+                >
+                  新增簡介
+                </button>
+              </div>
+              <div
+                v-for="(item, num) in productData.instructions"
+                :key="'intro' + num"
+              >
+                <div class="mb-3">
+                  <label :for="'instructions' + num" class="form-label">{{
+                    "產品簡介" + (num * 1 + 1)
+                  }}</label
+                  ><textarea
+                    type="text"
+                    class="form-control"
+                    :id="'instructions' + num"
+                    placeholder="請輸入產品描述"
+                    v-model="productData.instructions[num]"
+                  ></textarea>
                 </div>
               </div>
+              <hr />
+              <div class="d-flex justify-content-between align-items-center">
+                <h3 class="mb-3">產品介紹</h3>
+                <button
+                  type="button"
+                  class="btn btn-primary"
+                  @click="() => addIntro()"
+                >
+                  新增介紹
+                </button>
+              </div>
+              <div
+                v-for="(item, num) in productData.introQuantity"
+                :key="'intro' + num"
+              >
+                <div class="mb-3">
+                  <label :for="'description' + num" class="form-label">{{
+                    "產品描述" + (num * 1 + 1)
+                  }}</label>
+                  <textarea
+                    type="text"
+                    class="form-control"
+                    :id="'description' + num"
+                    placeholder="請輸入產品描述"
+                    v-model="item.intro"
+                  ></textarea>
+                </div>
+                <div class="mb-3">
+                  <label :for="'content' + num" class="form-label">{{
+                    "說明內容" + (num * 1 + 1)
+                  }}</label
+                  ><textarea
+                    type="text"
+                    class="form-control"
+                    :id="'content' + num"
+                    v-model="item.description"
+                    placeholder="請輸入產品說明內容"
+                  ></textarea>
+                </div>
+              </div>
+
               <div class="mb-3">
                 <div class="row gx-2">
                   <div class="mb-3 col-md-6">
@@ -272,19 +303,21 @@ export default {
   props: ["tempProduct", "isNew"],
   data() {
     return {
-      introQuantity: 1,
       modal: {},
       productData: {},
     };
   },
   methods: {
     addIntro() {
-      if (this.introQuantity < 3) {
-        this.introQuantity++;
-      } else {
-        this.$swal("加太多啦");
-      }
+      this.productData.introQuantity.push({
+        intro: "",
+        description: "",
+      });
     },
+    addInstruction() {
+      this.productData.instructions.push("");
+    },
+
     uploadFile() {
       const file = this.$refs.file.files[0];
       const formData = new FormData();
@@ -309,9 +342,22 @@ export default {
   },
   watch: {
     tempProduct() {
-      this.productData = this.tempProduct;
+      this.productData = {
+        ...this.tempProduct,
+      };
       if (!this.productData.imagesUrl) {
         this.productData.imagesUrl = [];
+      }
+      if (!this.productData.introQuantity) {
+        this.productData.introQuantity = [
+          {
+            intro: "",
+            description: "",
+          },
+        ];
+      }
+      if (!this.productData.instructions) {
+        this.productData.instructions = [""];
       }
     },
   },
