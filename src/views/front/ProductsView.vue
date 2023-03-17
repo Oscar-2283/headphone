@@ -1,28 +1,28 @@
 <template>
   <main>
     <div
-      class="banner-img"
-      style="
-        height: 500px;
-        background-image: url('/src/assets/img/products-banner.jpg');
-      "
+      class="banner-img d-flex justify-content-center align-items-center"
+      style="height: 500px"
+      :style="{ backgroundImage: `url(${bannerImg})` }"
     ></div>
     <div class="container py-8">
       <div class="row gx-4 gy-3">
         <div class="col-md-4 col-12">
           <div
-            class="p-3 bg-primary bg-opacity-25 rounded-3 position-sticky"
+            class="p-3 bg-primary bg-opacity-25 border border-primary border-2 rounded-3 position-sticky product-menu"
             style="top: 12%"
           >
-            <h3 class="mb-4">商品篩選</h3>
             <div class="mb-4 d-md-block d-none">
-              <h4 class="mb-2">價格</h4>
+              <div class="product-title">
+                <h4>價格</h4>
+              </div>
               <div class="d-flex gap-3">
                 <div>
                   <input
                     class="w-100 border-bottom border-dark bg-transparent p-2"
                     type="number"
                     v-model="minPrice"
+                    @change="sortProducts"
                     placeholder="最低"
                   />
                 </div>
@@ -32,41 +32,38 @@
                     class="w-100 border-bottom border-dark bg-transparent p-2"
                     type="number"
                     v-model="maxPrice"
+                    @change="sortProducts"
                     placeholder="最高"
                   />
                 </div>
               </div>
             </div>
             <div>
-              <h4 class="mb-2">商品類型</h4>
-              <!-- 電腦選單 -->
-              <ul class="px-3 d-md-block d-none">
+              <div class="product-title">
+                <h4>商品類型</h4>
+              </div>
+              <!-- 選單 -->
+              <ul class="px-3 w-md-auto w-100">
                 <li class="mb-1">
-                  <a href="#" @click.prevent="() => (selectedCategory = '全部')"
-                    >全部</a
+                  <router-link
+                    :to="{ query: { category: '全部', page: 1 } }"
+                    :key="全部"
                   >
+                    全部
+                  </router-link>
                 </li>
 
                 <li class="mb-1" v-for="item in categories" :key="item">
-                  <a
-                    href="#"
-                    @click.prevent="() => (selectedCategory = item)"
-                    >{{ item }}</a
+                  <router-link
+                    :to="{
+                      query: { category: item, page: 1 },
+                    }"
+                    :key="item"
                   >
+                    {{ item }}
+                  </router-link>
                 </li>
               </ul>
-              <!-- 手機選單 -->
-              <select
-                class="d-md-none d-block w-100 p-2 border border-dark rounded-3 bg-primary bg-opacity-50"
-              >
-                <option value="">全部</option>
-                <option value="">[無線]耳罩式耳機</option>
-                <option value="">[有線]耳罩式耳機</option>
-                <option value="">[有線]耳塞式耳機</option>
-                <option value="">[無線]耳塞式耳機</option>
-                <option value="">主動式消噪耳機</option>
-                <option value="">監聽耳機</option>
-              </select>
             </div>
           </div>
         </div>
@@ -79,6 +76,7 @@
               <select
                 class="w-100 p-2 border border-dark rounded-3 bg-primary bg-opacity-50"
                 v-model="selectedSort"
+                @change="sortProducts"
               >
                 <option value="照順序排列">照順序排列</option>
                 <option value="價格低到高">價格低到高</option>
@@ -132,7 +130,7 @@
             <pagination
               v-if="pagination.total_pages !== 1"
               :pages="pagination"
-              @updatePage="getProducts"
+              @updatePage="filterProducts"
             ></pagination>
           </div>
           <div v-else>
@@ -146,6 +144,7 @@
   </main>
 </template>
 <script>
+import bannerImg from "@/assets/img/products-banner.jpg";
 const { VITE_URL, VITE_PATH } = import.meta.env;
 import { mapActions, mapState } from "pinia";
 import cartStore from "@/stores/cart";
@@ -154,31 +153,38 @@ export default {
   inject: ["currency"],
   data() {
     return {
+      bannerImg: bannerImg,
       products: [],
-      products666: [],
+      filteredProducts: [],
       categories: [],
-      filtertype: [],
       selectedSort: "價格高到低",
-      selectedCategory: "全部",
       minPrice: null,
       maxPrice: null,
-      pagination: {
-        total_pages: 1,
-        current_page: 1,
-        has_pre: false,
-        has_next: false,
-        category: "",
-      },
+      pagination: {},
     };
   },
   methods: {
-    getProducts(page = 1) {
+    getProducts() {
       this.$http
         .get(`${VITE_URL}/api/${VITE_PATH}/products/all`)
         .then((res) => {
           this.products = res.data.products;
           this.getCategories();
-          this.setPagination(page);
+        })
+        .catch((err) => console.dir(err));
+    },
+    filterProducts(page = 1) {
+      let url = `${VITE_URL}/api/${VITE_PATH}/products?page=${page}`;
+      const category = this.$route.query.category;
+      if (category && category !== "全部") {
+        url = `${VITE_URL}/api/${VITE_PATH}/products?page=${page}&category=${category}`;
+      }
+      this.$http
+        .get(url)
+        .then((res) => {
+          this.filteredProducts = res.data.products;
+          this.pagination = res.data.pagination;
+          this.$router.push({ path: "products", query: { category, page } });
         })
         .catch((err) => console.dir(err));
     },
@@ -201,48 +207,12 @@ export default {
         })
         .catch((err) => console.log(err.data));
     },
-    setPagination(page) {
-      const itemsPerPage = 9;
-      let filterProduct = [];
-      if (this.selectedCategory === "全部") {
-        filterProduct = this.products;
-      } else {
-        filterProduct = this.products.filter(
-          (item) => item.category === this.selectedCategory
-        );
-      }
-      const totalItems = filterProduct.length;
-      const totalPages = Math.ceil(totalItems / itemsPerPage);
-
-      const startIndex = (page - 1) * itemsPerPage;
-      const endIndex = startIndex + itemsPerPage;
-      const slicedProducts = this.products.slice(startIndex, endIndex);
-
-      this.pagination = {
-        total_pages: totalPages,
-        current_page: page,
-        has_pre: page !== 1,
-        has_next: page < totalPages,
-        category: "",
-      };
-      this.products = slicedProducts;
-    },
-    ...mapActions(cartStore, ["getCart"]),
-  },
-  components: {
-    pagination,
-  },
-  mounted() {
-    this.getProducts();
-  },
-  computed: {
-    ...mapState(cartStore, ["carts"]),
-    filteredProducts() {
+    sortProducts() {
       let products =
-        this.selectedCategory === "全部"
+        this.$route.query.category === "全部"
           ? this.products
           : this.products.filter(
-              (product) => product.category === this.selectedCategory
+              (product) => product.category === this.$route.query.category
             );
       if (this.minPrice !== null) {
         products = products.filter((product) => product.price >= this.minPrice);
@@ -252,36 +222,39 @@ export default {
       }
 
       if (this.selectedSort === "價格高到低") {
-        return products.sort((a, b) => b.price - a.price);
+        this.filteredProducts = products.sort((a, b) => b.price - a.price);
       } else if (this.selectedSort === "價格低到高") {
-        return products.sort((a, b) => a.price - b.price);
+        this.filteredProducts = products.sort((a, b) => a.price - b.price);
       } else {
-        return products;
+        this.filteredProducts = products;
       }
     },
+    ...mapActions(cartStore, ["getCart"]),
+  },
+  components: {
+    pagination,
+  },
+  mounted() {
+    this.getProducts();
+    this.filterProducts();
+  },
+  computed: {
+    ...mapState(cartStore, ["carts"]),
   },
   watch: {
-    selectedCategory() {
-      const isEmpty = this.products.filter(
-        (product) => product.category === this.selectedCategory
-      );
-      if (!isEmpty.length) {
-        this.getProducts(1);
-        this.$http
-          .get(`${VITE_URL}/api/${VITE_PATH}/products/all`)
-          .then((res) => {
-            this.products = res.data.products;
-          })
-          .catch((err) => console.dir(err));
-      } else {
-        return;
-      }
+    $route: {
+      handler(val) {
+        if (val.name === "products") {
+          this.filterProducts(this.$route.query.page);
+        }
+      },
+      deep: true,
     },
   },
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .text-text {
   display: block;
   letter-spacing: 0;

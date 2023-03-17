@@ -193,7 +193,7 @@ export default {
       this.isLoading = true;
       this.$http
         .delete(
-          `${VITE_URL}/api/${VITE_PATH}/admin/artcle/${this.tempArticle.id}`
+          `${VITE_URL}/api/${VITE_PATH}/admin/article/${this.tempArticle.id}`
         )
         .then((res) => {
           this.isLoading = false;

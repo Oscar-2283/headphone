@@ -5,7 +5,7 @@
         <div class="container">
           <div class="row g-5 justify-content-between align-items-center">
             <div class="col-md-6 col-12">
-              <h1 class="text-title mb-4">ATH-W5000</h1>
+              <h1 class="text-title mb-4 banner-title">ATH-W5000</h1>
               <p class="p2 text-text mb-4" style="max-width: 482px">
                 以無線及有線方式體會震撼心靈的感動
                 前所未有的Hi-end數位連接頭戴式耳機

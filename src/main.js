@@ -11,11 +11,6 @@ import "bootstrap";
 import CKEditor from "@ckeditor/ckeditor5-vue";
 import VueSweetalert2 from "vue-sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";
-
-import "swiper/css";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
-import "swiper/css/scrollbar";
 import "./assets/all.scss";
 import { date, currency } from "./methods/filters";
 

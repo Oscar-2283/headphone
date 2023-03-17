@@ -1,0 +1,30 @@
+.product-menu {
+  a.router-link-exact-active {
+    color: #da6a19;
+  }
+  .product-title {
+    position: relative;
+    background: #da6a19;
+    color: white;
+    text-align: center;
+    padding: 5px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    h4 {
+      font-size: 17px;
+      font-weight: bold;
+    }
+    &::before {
+      content: "";
+      position: absolute;
+      border-width: 13px 8px 0px 8px;
+      border-color: #da6a19 transparent transparent transparent;
+      border-style: solid;
+      left: 50%;
+      bottom: -12px;
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+    }
+  }
+}

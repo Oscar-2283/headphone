@@ -11,12 +11,11 @@
   <div class="ovf-hidden">
     <div
       class="banner-img d-flex justify-content-center align-items-center"
-      style="
-        height: 500px;
-        background-image: url('/src/assets/img/article-banner.jpg');
-      "
+      style="height: 500px"
+      :style="{ backgroundImage: `url(${bannerImg})` }"
     >
-      <h1 class="text-white">文章</h1>
+      >
+      <h1 class="text-white banner-title">好文分享</h1>
     </div>
     <div class="container py-8">
       <div class="row gx-8 gy-4">
@@ -27,29 +26,38 @@
         >
           <router-link :to="`/articles/article/${article.id}`" class="card">
             <img
-              src="/src/assets/img/article-banner.jpg"
+              :src="article.imageUrl"
               class="card-img-top"
+              style="height: 230px"
               alt=""
             />
-            <div class="card-body">
+            <div class="card-body d-flex flex-column">
               <h5 class="text-title mb-3">
                 {{ article.title }}
               </h5>
-              <p class="text-text text-limit">
+              <p class="text-text text-limit mt-auto">
                 {{ article.description }}
               </p>
             </div>
           </router-link>
         </div>
+        <pagination
+          v-if="pagination.total_pages !== 1"
+          :pages="pagination"
+          @updatePage="getArticles"
+        ></pagination>
       </div>
     </div>
   </div>
 </template>
 <script>
+import bannerImg from "@/assets/img/article-banner.jpg";
 const { VITE_URL, VITE_PATH } = import.meta.env;
+import pagination from "@/components/PaginationView.vue";
 export default {
   data() {
     return {
+      bannerImg: bannerImg,
       articles: [],
       tempArticle: {},
       pagination: {},
@@ -65,9 +73,13 @@ export default {
           const { articles, pagination } = res.data;
           this.articles = articles;
           this.pagination = pagination;
+          console.log(this.articles);
         })
         .catch((err) => console.log(err.response.data.message));
     },
+  },
+  components: {
+    pagination,
   },
   mounted() {
     this.getArticles();

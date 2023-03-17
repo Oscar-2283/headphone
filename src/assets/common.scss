@@ -16,7 +16,7 @@ h5,
 h6,
 p {
   margin: 0;
-  line-height: 1.2;
+  line-height: 1.5;
 }
 h1 {
   font-size: 36px;
@@ -49,9 +49,16 @@ li {
   margin: 0;
   list-style: none;
 }
-
+.banner-title {
+  font-size: 56px;
+  font-weight: 500;
+  @media (min-width: 768px) {
+    font-size: 80px;
+  }
+}
 a {
   text-decoration: unset;
+  color: #222222;
 }
 img {
   max-width: 100%;
@@ -75,8 +82,8 @@ textarea {
 }
 .container {
   max-width: 1344px;
-  padding-left: 12px;
-  padding-right: 12px;
+  padding-left: 40px;
+  padding-right: 40px;
   margin-left: auto;
   margin-right: auto;
 }
@@ -191,5 +198,10 @@ textarea {
 
   &:checked + .tgl-btn {
     background: #9fd6ae;
+  }
+}
+.btn-outline-primary {
+  &:hover {
+    color: white !important;
   }
 }

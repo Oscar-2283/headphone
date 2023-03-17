@@ -1,4 +1,7 @@
 <style lang="scss">
+a.router-link-exact-active {
+  color: #da6a19;
+}
 .slide-enter-active,
 .slide-leave-active {
   transition: all 0.3s;
@@ -128,11 +131,11 @@
   </footer>
 </template>
 <script>
-import AsideCart from "../components/AsideCart.vue";
+import AsideCart from "../../components/AsideCart.vue";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
 import { mapActions, mapState } from "pinia";
-import cartStore from "../stores/cart";
+import cartStore from "../../stores/cart";
 gsap.registerPlugin(ScrollTrigger);
 
 export default {

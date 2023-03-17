@@ -5,49 +5,50 @@ const router = createRouter({
   routes: [
     {
       path: "/",
-      component: () => import("../views/FrontLayout.vue"),
+      component: () => import("../views/front/FrontLayout.vue"),
       children: [
         {
           path: "",
-          component: () => import("../views/HomeView.vue"),
+          component: () => import("../views/front/HomeView.vue"),
           children: [],
         },
         {
           path: "products",
-          component: () => import("../views/ProductsView.vue"),
+          name: "products",
+          component: () => import("../views/front/ProductsView.vue"),
           children: [],
         },
         {
           path: "product/:id",
-          component: () => import("../views/ProductView.vue"),
+          component: () => import("../views/front/ProductView.vue"),
         },
         {
           path: "about",
-          component: () => import("../views/AboutView.vue"),
+          component: () => import("../views/front/AboutView.vue"),
         },
         {
           path: "articles",
-          component: () => import("../views/ArticlesView.vue"),
+          component: () => import("../views/front/ArticlesView.vue"),
         },
         {
           path: "articles/article/:id",
-          component: () => import("../views/ArticleView.vue"),
+          component: () => import("../views/front/ArticleView.vue"),
         },
         {
           path: "cart",
-          component: () => import("../views/CartView.vue"),
+          component: () => import("../views/front/CartView.vue"),
           children: [
             {
               path: "",
-              component: () => import("../views/CheckOrder.vue"),
+              component: () => import("../views/front/CheckOrder.vue"),
             },
             {
               path: "payOrder",
-              component: () => import("../views/PayOrder.vue"),
+              component: () => import("../views/front/PayOrder.vue"),
             },
             {
               path: "checkOut/:id",
-              component: () => import("../views/CheckOut.vue"),
+              component: () => import("../views/front/CheckOut.vue"),
             },
           ],
         },
@@ -55,7 +56,7 @@ const router = createRouter({
     },
     {
       path: "/login",
-      component: () => import("../views/LogIn.vue"),
+      component: () => import("../views/front/LogIn.vue"),
     },
     {
       path: "/admin",
@@ -81,11 +82,6 @@ const router = createRouter({
     },
   ],
   linkActiveClass: "active",
-  beforeRouteUpdate: async function (to, from, next) {
-    console.log(this);
-
-    next();
-  },
 });
 
 export default router;

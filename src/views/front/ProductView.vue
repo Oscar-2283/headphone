@@ -2,7 +2,7 @@
   <main class="main overflow-hidden">
     <div class="container py-8">
       <div class="row justify-content-center align-items-center g-8">
-        <div class="col-md-6 col-sm-10 col-12">
+        <div class="col-md-6 col-sm-7 col-12">
           <div class="border border-dark-subtle">
             <img
               class="w-100 object-fit-cover"
@@ -12,11 +12,12 @@
             />
           </div>
         </div>
-        <div class="col-md-6 col-sm-10 col-12">
+        <div class="col-md-6 col-12">
           <h2 class="mb-4">{{ product.title }}</h2>
           <ul class="mb-3" style="list-style: disc; padding-left: 1em">
             <li
               style="list-style: disc"
+              class="mb-1"
               v-for="(item, index) in product.instructions"
               :key="'text' + index"
             >
@@ -32,12 +33,16 @@
             <p class="text-title p2">NT$ {{ currency(product.price) }}</p>
           </div>
           <hr />
-          <div class="row gx-5 gy-2 align-items-center mb-3">
+          <div
+            class="row gx-5 gy-2 align-items-center justify-content-end mb-3"
+          >
             <div class="col-md-6 col-12">
               <button
                 type="button"
-                class="btn btn-primary text-white p-2 w-100"
+                class="btn btn-primary text-white p-2 w-100 d-flex align-items-center justify-content-center"
+                @click="() => addToCart(product.id)"
               >
+                <span class="material-symbols-outlined"> shopping_cart </span>
                 加入購物車
               </button>
             </div>
@@ -47,7 +52,7 @@
       <!-- 內容 -->
       <div class="py-5">
         <div class="row justify-content-center">
-          <div class="col-md-12 col-sm-10 col-12">
+          <div class="col-md-12 col-12">
             <ul class="nav nav-tabs mb-3" id="pills-tab" role="tablist">
               <li class="nav-item" role="presentation">
                 <button
@@ -131,42 +136,102 @@
           </div>
         </div>
       </div>
+      <hr />
       <!-- swiper -->
-      <Swiper ref="mySwiper" :options="swiperOptions">
-        <SwiperSlide>Slide 1</SwiperSlide>
-        <SwiperSlide>Slide 2</SwiperSlide>
-        <SwiperSlide>Slide 2</SwiperSlide>
-        <SwiperSlide>Slide 2</SwiperSlide>
-        <SwiperSlide>Slide 3</SwiperSlide>
-      </Swiper>
+      <div>
+        <div class="d-flex justify-content-between align-items-baseline mb-3">
+          <div class="h4">您可能會喜歡</div>
+          <RouterLink
+            to="/products"
+            class="btn btn-outline-primary d-flex align-items-center"
+          >
+            <span class="material-symbols-outlined"> arrow_back </span>
+            回商品列表
+          </RouterLink>
+        </div>
+        <Swiper
+          :modules="modules"
+          :space-between="50"
+          :breakpoints="swiperOptions.breakpoints"
+          navigation
+          class="px-6"
+        >
+          <SwiperSlide
+            class="py-4 px-2"
+            v-for="product in randomProducts"
+            :key="product.id"
+          >
+            <RouterLink
+              :to="`/product/${product.id}`"
+              class="card overflow-hidden"
+            >
+              <div style="position: relative; background: #f1f1f1">
+                <img :src="product.imageUrl" class="card-img-top" alt="" />
+                <button
+                  type="button"
+                  @click.prevent="() => addToCart(product.id)"
+                  class="btn btn-primary text-white position-absolute bottom-0 end-0 card-button"
+                >
+                  加入購物車
+                </button>
+              </div>
+              <div class="card-body d-flex flex-column">
+                <h4 class="mb-2 text-title">
+                  {{ product.title }}
+                </h4>
+                <h4 class="text-text mb-2 fs-6">
+                  {{ product.description1 }}
+                </h4>
+                <div class="d-flex align-items-center gap-3 mt-auto mb-2">
+                  <del class="text-title text-muted fs-6"
+                    >NT$ {{ currency(product.origin_price) }}</del
+                  >
+                  <p class="text-title fs-6">
+                    NT$ {{ currency(product.price) }}
+                  </p>
+                </div>
+              </div>
+            </RouterLink>
+          </SwiperSlide>
+        </Swiper>
+      </div>
     </div>
+    <div class="text666">123</div>
   </main>
 </template>
 <script>
 const { VITE_URL, VITE_PATH } = import.meta.env;
+import { mapActions, mapState } from "pinia";
+import cartStore from "@/stores/cart";
 import { Swiper, SwiperSlide } from "swiper/vue";
-import { Navigation, Pagination, A11y } from "swiper";
+import { Navigation } from "swiper";
+
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
 export default {
   inject: ["currency"],
-  components: {
-    Swiper,
-    SwiperSlide,
-  },
+
   data() {
     return {
       product: {},
-      modules: [Navigation, Pagination, A11y],
+      allProducts: [],
+      mySwiper: null,
+      modules: [Navigation],
       swiperOptions: {
-        modules: [Navigation, Pagination],
-        slidesPerView: 3,
-        spaceBetween: 50,
-        navigation: {
-          nextEl: ".swiper-button-next",
-          prevEl: ".swiper-button-prev",
-        },
-        pagination: {
-          el: ".swiper-pagination",
-          clickable: true,
+        breakpoints: {
+          576: {
+            slidesPerView: 1,
+          },
+          768: {
+            slidesPerView: 2,
+            spaceBetween: 50,
+          },
+
+          1080: {
+            slidesPerView: 4,
+            spaceBetween: 30,
+          },
         },
       },
     };
@@ -179,22 +244,81 @@ export default {
         .then((res) => {
           this.isLoading = false;
           this.product = res.data.product;
-          console.log(res.data);
-          console.log(this.product);
+          console.log(this.product.title);
         })
         .catch((err) => {
           this.isLoading = false;
           this.$swal(err.response.data.message);
         });
     },
+    fetchAllProducts() {
+      this.$http
+        .get(`${VITE_URL}/api/${VITE_PATH}/products/all`)
+        .then((res) => {
+          this.allProducts = res.data.products;
+        })
+        .catch((err) => console.dir(err));
+    },
+    addToCart(id, qty = 1) {
+      const data = {
+        product_id: id,
+        qty,
+      };
+      this.$http
+        .post(`${VITE_URL}/api/${VITE_PATH}/cart`, { data })
+        .then((res) => {
+          console.log(res.data);
+          this.getCart();
+        })
+        .catch((err) => console.log(err.data));
+    },
+    ...mapActions(cartStore, ["getCart"]),
+  },
+  components: {
+    Swiper,
+    SwiperSlide,
+  },
+  mounted() {
+    this.fetchAllProducts();
+    this.getProduct();
   },
 
-  mounted() {
-    this.getProduct();
+  computed: {
+    randomProducts() {
+      const category = this.product.category;
+      if (this.allProducts && category) {
+        const randomProducts = this.allProducts.filter((item) => {
+          return (
+            item.category === category && item.title !== this.product.title
+          );
+        });
+
+        if (randomProducts.length < 6) {
+          return randomProducts;
+        } else {
+          const result = [];
+          while (result.length < 6) {
+            const randomIndex = Math.floor(
+              Math.random() * randomProducts.length
+            );
+
+            const randomProduct = randomProducts[randomIndex];
+
+            if (!result.includes(randomProduct)) {
+              result.push(randomProduct);
+            }
+          }
+          return result;
+        }
+      } else {
+        return [];
+      }
+    },
+    ...mapState(cartStore, ["carts"]),
   },
 };
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 .nav-tabs {
   .nav-link {
     color: #233749;
@@ -211,5 +335,9 @@ export default {
       }
     }
   }
+}
+.swiper-button-next,
+.swiper-button-prev {
+  color: #fc6e07;
 }
 </style>

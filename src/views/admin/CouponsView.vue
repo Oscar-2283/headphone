@@ -164,7 +164,7 @@ export default {
       this.isLoading = true;
       this.$http
         .delete(
-          `${VITE_URL}/api/${VITE_PATH}/admin/copon/${this.tempCoupon.id}`
+          `${VITE_URL}/api/${VITE_PATH}/admin/coupon/${this.tempCoupon.id}`
         )
         .then((res) => {
           this.isLoading = false;
