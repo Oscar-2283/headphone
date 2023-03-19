@@ -25,21 +25,25 @@
 </template>
 <script>
 const { VITE_URL, VITE_PATH } = import.meta.env;
+import { mapActions } from "pinia";
+import LoadingStore from "@/stores/LoadingStore.js";
 export default {
   data() {
     return {
       article: {},
-      isLoading: false,
     };
   },
   methods: {
+    ...mapActions(LoadingStore, ["hideLoading", "showLoading"]),
     getArticle() {
+      this.showLoading();
       this.$http
         .get(`${VITE_URL}/api/${VITE_PATH}/article/${this.$route.params.id}`)
         .then((res) => {
           const { article } = res.data;
           this.article = article;
           this.article.content = article.content.replace(/&nbsp;/g, "<br>");
+          this.hideLoading();
         })
         .catch((err) => console.log(err.response.data.message));
     },

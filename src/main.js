@@ -13,7 +13,7 @@ import VueSweetalert2 from "vue-sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";
 import "./assets/all.scss";
 import { date, currency } from "./methods/filters";
-
+import fade from "@/components/PageFade.vue";
 const app = createApp(App);
 
 app
@@ -24,7 +24,7 @@ app
   .use(VueSweetalert2);
 
 app.component("VLoading", Loading);
-
+app.component("VFade", fade);
 app.provide("date", date);
 app.provide("currency", currency);
 

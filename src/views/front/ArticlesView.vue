@@ -1,12 +1,3 @@
-<style lang="scss" scope>
-.text-limit {
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-</style>
 <template>
   <div class="ovf-hidden">
     <div
@@ -54,6 +45,9 @@
 import bannerImg from "@/assets/img/article-banner.jpg";
 const { VITE_URL, VITE_PATH } = import.meta.env;
 import pagination from "@/components/PaginationView.vue";
+import { mapActions } from "pinia";
+
+import LoadingStore from "@/stores/LoadingStore.js";
 export default {
   data() {
     return {
@@ -61,11 +55,11 @@ export default {
       articles: [],
       tempArticle: {},
       pagination: {},
-      isLoading: false,
       currentPage: 1,
     };
   },
   methods: {
+    ...mapActions(LoadingStore, ["hideLoading", "showLoading"]),
     getArticles(page = 1) {
       this.$http
         .get(`${VITE_URL}/api/${VITE_PATH}/articles?page=${page}`)
@@ -73,6 +67,7 @@ export default {
           const { articles, pagination } = res.data;
           this.articles = articles;
           this.pagination = pagination;
+          this.hideLoading();
           console.log(this.articles);
         })
         .catch((err) => console.log(err.response.data.message));
@@ -82,7 +77,17 @@ export default {
     pagination,
   },
   mounted() {
+    this.showLoading();
     this.getArticles();
   },
 };
 </script>
+<style lang="scss" scope>
+.text-limit {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+</style>

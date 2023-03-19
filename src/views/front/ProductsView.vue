@@ -7,9 +7,9 @@
     ></div>
     <div class="container py-8">
       <div class="row gx-4 gy-3">
-        <div class="col-md-4 col-12">
+        <div class="col-md-3 col-12">
           <div
-            class="p-3 bg-primary bg-opacity-25 border border-primary border-2 rounded-3 position-sticky product-menu"
+            class="p-3 border border-2 rounded-3 position-sticky product-menu"
             style="top: 12%"
           >
             <div class="mb-4 d-md-block d-none">
@@ -47,7 +47,7 @@
                 <li class="mb-1">
                   <router-link
                     :to="{ query: { category: '全部', page: 1 } }"
-                    :key="全部"
+                    :class="{ selected: selectedCategory === '全部' }"
                   >
                     全部
                   </router-link>
@@ -58,7 +58,7 @@
                     :to="{
                       query: { category: item, page: 1 },
                     }"
-                    :key="item"
+                    :class="{ selected: selectedCategory === item }"
                   >
                     {{ item }}
                   </router-link>
@@ -68,13 +68,11 @@
           </div>
         </div>
 
-        <div class="col-md-8 col-12">
-          <div
-            class="row gy-2 border-bottom border-dark-subtle align-items-center py-2 px-md-0 px-3"
-          >
+        <div class="col-md-9 col-12">
+          <div class="row gy-2 align-items-center pt-2 pb-3 px-md-0 px-3">
             <div class="col-md-4 col-12">
               <select
-                class="w-100 p-2 border border-dark rounded-3 bg-primary bg-opacity-50"
+                class="w-100 p-2 border border-dark rounded-3"
                 v-model="selectedSort"
                 @change="sortProducts"
               >
@@ -84,11 +82,14 @@
               </select>
             </div>
             <div class="col-md-8 col-12">
-              <h4>[無線]耳罩式耳機</h4>
+              <h4>
+                {{ selectedCategory === "全部" ? "" : selectedCategory }}
+              </h4>
             </div>
           </div>
+          <hr />
           <div v-if="filteredProducts[filteredProducts.length - 1]">
-            <div class="row gy-4 py-4">
+            <div class="row gy-4 py-2">
               <div
                 class="col-lg-4 col-md-6 col-12"
                 v-for="product in filteredProducts"
@@ -148,7 +149,9 @@ import bannerImg from "@/assets/img/products-banner.jpg";
 const { VITE_URL, VITE_PATH } = import.meta.env;
 import { mapActions, mapState } from "pinia";
 import cartStore from "@/stores/cart";
+import LoadingStore from "@/stores/LoadingStore.js";
 import pagination from "@/components/PaginationView.vue";
+import Toast from "@/mixin/toast.js";
 export default {
   inject: ["currency"],
   data() {
@@ -156,6 +159,7 @@ export default {
       bannerImg: bannerImg,
       products: [],
       filteredProducts: [],
+      selectedCategory: "" || this.$route.query.category,
       categories: [],
       selectedSort: "價格高到低",
       minPrice: null,
@@ -164,6 +168,7 @@ export default {
     };
   },
   methods: {
+    ...mapActions(LoadingStore, ["showLoading", "hideLoading"]),
     getProducts() {
       this.$http
         .get(`${VITE_URL}/api/${VITE_PATH}/products/all`)
@@ -185,6 +190,7 @@ export default {
           this.filteredProducts = res.data.products;
           this.pagination = res.data.pagination;
           this.$router.push({ path: "products", query: { category, page } });
+          this.hideLoading();
         })
         .catch((err) => console.dir(err));
     },
@@ -202,8 +208,12 @@ export default {
       this.$http
         .post(`${VITE_URL}/api/${VITE_PATH}/cart`, { data })
         .then((res) => {
-          console.log(res.data);
           this.getCart();
+          Toast.fire({
+            icon: "success",
+            title: res.data.message,
+            width: 250,
+          });
         })
         .catch((err) => console.log(err.data));
     },
@@ -241,12 +251,17 @@ export default {
   computed: {
     ...mapState(cartStore, ["carts"]),
   },
+  created() {
+    this.showLoading();
+  },
   watch: {
     $route: {
       handler(val) {
+        this.showLoading();
         if (val.name === "products") {
           this.filterProducts(this.$route.query.page);
         }
+        this.selectedCategory = val.query.category;
       },
       deep: true,
     },
@@ -255,6 +270,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.selected {
+  color: #da6a19 !important;
+}
 .text-text {
   display: block;
   letter-spacing: 0;
@@ -264,5 +282,34 @@ export default {
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
+}
+.product-menu {
+  a.router-link-exact-active {
+    color: #222222;
+  }
+  .product-title {
+    position: relative;
+    background: #f1f1f1;
+    text-align: center;
+    padding: 5px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    h4 {
+      font-size: 17px;
+      font-weight: bold;
+    }
+    &::before {
+      content: "";
+      position: absolute;
+      border-width: 13px 8px 0px 8px;
+      border-color: #f1f1f1 transparent transparent transparent;
+      border-style: solid;
+      left: 50%;
+      bottom: -12px;
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+    }
+  }
 }
 </style>

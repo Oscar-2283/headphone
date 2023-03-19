@@ -163,6 +163,7 @@
           >
             <RouterLink
               :to="`/product/${product.id}`"
+              @click="showLoading()"
               class="card overflow-hidden"
             >
               <div style="position: relative; background: #f1f1f1">
@@ -196,13 +197,13 @@
         </Swiper>
       </div>
     </div>
-    <div class="text666">123</div>
   </main>
 </template>
 <script>
 const { VITE_URL, VITE_PATH } = import.meta.env;
 import { mapActions, mapState } from "pinia";
 import cartStore from "@/stores/cart";
+import LoadingStore from "@/stores/LoadingStore.js";
 import { Swiper, SwiperSlide } from "swiper/vue";
 import { Navigation } from "swiper";
 
@@ -237,18 +238,16 @@ export default {
     };
   },
   methods: {
+    ...mapActions(LoadingStore, ["hideLoading", "showLoading"]),
     getProduct() {
-      this.isLoading = true;
       this.$http
         .get(`${VITE_URL}/api/${VITE_PATH}/product/${this.$route.params.id}`)
         .then((res) => {
-          this.isLoading = false;
           this.product = res.data.product;
-          console.log(this.product.title);
+          this.hideLoading();
         })
         .catch((err) => {
-          this.isLoading = false;
-          this.$swal(err.response.data.message);
+          console.log(err);
         });
     },
     fetchAllProducts() {
@@ -256,6 +255,7 @@ export default {
         .get(`${VITE_URL}/api/${VITE_PATH}/products/all`)
         .then((res) => {
           this.allProducts = res.data.products;
+          this.hideLoading();
         })
         .catch((err) => console.dir(err));
     },
@@ -316,9 +316,20 @@ export default {
     },
     ...mapState(cartStore, ["carts"]),
   },
+  watch: {
+    $route: {
+      handler() {
+        this.getProduct();
+      },
+      deep: true,
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>
+.swiper-slide {
+  height: auto;
+}
 .nav-tabs {
   .nav-link {
     color: #233749;

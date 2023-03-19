@@ -10,9 +10,13 @@
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
 import Progreess from "@/components/PayProgress.vue";
+import { mapActions } from "pinia";
+import LoadingStore from "@/stores/LoadingStore.js";
+// import Toast from "@/mixin/toast.js";
 gsap.registerPlugin(ScrollTrigger);
 export default {
   methods: {
+    ...mapActions(LoadingStore, ["hideLoading"]),
     initGsap() {
       document.querySelectorAll("[data-scroll]").forEach((item) => {
         gsap.to(item, {
@@ -58,6 +62,7 @@ export default {
   mounted() {
     this.initGsap();
     this.checkProgress();
+    this.hideLoading();
   },
   watch: {
     $route() {

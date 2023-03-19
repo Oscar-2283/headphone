@@ -219,3 +219,15 @@
     </section>
   </main>
 </template>
+<script>
+import { mapActions } from "pinia";
+import LoadingStore from "@/stores/LoadingStore.js";
+export default {
+  methods: {
+    ...mapActions(LoadingStore, ["hideLoading"]),
+  },
+  mounted() {
+    this.hideLoading();
+  },
+};
+</script>

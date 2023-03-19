@@ -62,10 +62,9 @@
   </div>
 </template>
 <script>
-import gsap from "gsap";
-import ScrollTrigger from "gsap/ScrollTrigger";
 import bannerImg from "@/assets/img/about-banner.jpg";
-gsap.registerPlugin(ScrollTrigger);
+import { mapActions } from "pinia";
+import LoadingStore from "@/stores/LoadingStore.js";
 export default {
   data() {
     return {
@@ -73,22 +72,10 @@ export default {
     };
   },
   methods: {
-    initGsap() {
-      document.querySelectorAll("[data-scroll]").forEach((item) => {
-        gsap.to(item, {
-          scrollTrigger: {
-            trigger: item,
-            start: "top 70%",
-            onEnter: () => {
-              item.classList.add("is-inview");
-            },
-          },
-        });
-      });
-    },
+    ...mapActions(LoadingStore, ["hideLoading"]),
   },
   mounted() {
-    this.initGsap();
+    this.hideLoading();
   },
 };
 </script>

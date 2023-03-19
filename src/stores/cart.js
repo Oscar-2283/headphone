@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
 import axios from "axios";
+import Toast from "@/mixin/toast.js";
 const { VITE_URL, VITE_PATH } = import.meta.env;
 const cartStore = defineStore("cart", {
   state: () => {
@@ -11,7 +12,6 @@ const cartStore = defineStore("cart", {
   },
   actions: {
     getCart() {
-      this.isLoading = true;
       axios
         .get(`${VITE_URL}/api/${VITE_PATH}/cart`)
         .then((res) => {
@@ -27,13 +27,27 @@ const cartStore = defineStore("cart", {
         });
     },
     updateCart(item) {
-      this.isLoading = true;
       const data = {
         product_id: item.product.id,
         qty: item.qty,
       };
       axios
         .put(`${VITE_URL}/api/${VITE_PATH}/cart/${item.id}`, { data })
+        .then((res) => {
+          Toast.fire({
+            icon: "success",
+            title: res.data.message,
+            width: 250,
+          });
+          this.getCart();
+        })
+        .catch((err) => {
+          console.dir(err);
+        });
+    },
+    deleteCart(id) {
+      axios
+        .delete(`${VITE_URL}/api/${VITE_PATH}/cart/${id}`)
         .then((res) => {
           console.log(res.data);
           this.getCart();
@@ -42,10 +56,9 @@ const cartStore = defineStore("cart", {
           console.dir(err);
         });
     },
-    deleteCart(id) {
-      this.isLoading = true;
+    deleteAllCart() {
       axios
-        .delete(`${VITE_URL}/api/${VITE_PATH}/cart/${id}`)
+        .delete(`${VITE_URL}/api/${VITE_PATH}/carts`)
         .then((res) => {
           console.log(res.data);
           this.getCart();

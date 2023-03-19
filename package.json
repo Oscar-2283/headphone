@@ -16,7 +16,7 @@
     "ckeditor5": "36.0.1",
     "gsap": "^3.11.4",
     "pinia": "^2.0.28",
-    "sweetalert2": "^11.4.8",
+    "sweetalert2": "^11.7.3",
     "swiper": "^9.1.0",
     "vue": "^3.2.45",
     "vue-axios": "^3.5.2",

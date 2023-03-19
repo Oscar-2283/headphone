@@ -9,20 +9,12 @@
   background-size: cover;
 }
 .cartIcon {
-  svg path {
-    transition: all 0.3s;
-  }
+  transition: all 0.3s;
   &:hover {
-    svg path {
-      fill: #da6a19;
-    }
-  }
-  &.active {
-    svg path {
-      fill: #da6a19;
-    }
+    color: #da6a19;
   }
 }
+
 .max-w-526 {
   @media (min-width: 768px) {
     max-width: 526px;
