@@ -8,28 +8,35 @@
       <h1 class="text-white banner-title">關於我們</h1>
     </div>
     <div class="container py-8">
-      <div class="row gx-4 gy-10 align-items-center position-relative text-bg">
-        <div class="col-6">
-          <img src="/src/assets/img/products-banner.jpg" alt="" />
+      <div class="text-bg position-relative">
+        <div
+          class="row gx-4 gy-md-10 gy-5 align-items-center position-relative"
+        >
+          <div class="col-md-6 col-12">
+            <img src="@/assets/img/intro2.jpg" alt="" />
+          </div>
+          <div class="col-md-6 col-12">
+            <h2 class="mb-3">Audio Avenue 起源</h2>
+            <p class="lh-15">
+              我們的耳機店由一群對音樂和音質有熱誠的年輕人創立，他們希望通過提供優質的耳機產品，幫助人們更好地享受音樂。自成立以來，我們一直致力於這一目標，並且通過不斷努力和創新，為客戶提供最好的體驗。
+            </p>
+          </div>
         </div>
-        <div class="col-6">
-          <h2 class="mb-3">Audio Avenue 起源</h2>
-          <p class="lh-15">
-            我們的耳機店由一群對音樂和音質有熱誠的年輕人創立，他們希望通過提供優質的耳機產品，幫助人們更好地享受音樂。自成立以來，我們一直致力於這一目標，並且通過不斷努力和創新，為客戶提供最好的體驗。
-          </p>
-        </div>
-
-        <div class="col-6">
-          <h2 class="mb-3">我們的歷史</h2>
-          <p class="lh-15">
-            我們是一家專門銷售高品質耳機的店鋪，我們的使命是為客戶提供最好的音質和最舒適的體驗。我們的店鋪位於市中心，擁有豐富的商品選擇和專業的銷售團隊。
-          </p>
-        </div>
-        <div class="col-6">
-          <img src="/src/assets/img/products-banner.jpg" alt="" />
+        <div
+          class="row gx-4 gy-md-10 gy-5 align-items-center position-relative mt-5"
+        >
+          <div class="col-md-6 col-12">
+            <h2 class="mb-3">我們的歷史</h2>
+            <p class="lh-15">
+              我們是一家專門銷售高品質耳機的店鋪，我們的使命是為客戶提供最好的音質和最舒適的體驗。我們的店鋪位於市中心，擁有豐富的商品選擇和專業的銷售團隊。
+            </p>
+          </div>
+          <div class="col-md-6 col-12 order-md-0 order-first">
+            <img src="/src/assets/img/intro1.jpg" alt="" />
+          </div>
         </div>
       </div>
-      <div class="py-8 mx-auto" style="max-width: 1000px">
+      <!-- <div class="py-8 mx-auto" style="max-width: 1000px">
         <div class="mb-6">
           <h2 class="text-center mb-3">合作品牌</h2>
           <p class="text-center">
@@ -45,7 +52,7 @@
             <img src="/src/assets/img/icon/technica.png" alt="" />
           </div>
         </div>
-      </div>
+      </div> -->
     </div>
     <div style="height: 400px">
       <iframe
