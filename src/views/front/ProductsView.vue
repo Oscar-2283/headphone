@@ -7,9 +7,9 @@
     ></div>
     <div class="container py-8">
       <div class="row gx-4 gy-3">
-        <div class="col-md-3 col-12">
+        <div class="col-lg-3 col-12">
           <div
-            class="p-3 border border-2 rounded-3 position-sticky product-menu"
+            class="p-2 border border-2 rounded-3 position-sticky product-menu"
             style="top: 12%"
           >
             <div class="mb-4 d-md-block d-none">
@@ -68,7 +68,7 @@
           </div>
         </div>
 
-        <div class="col-md-9 col-12">
+        <div class="col-lg-9 col-12">
           <div class="row gy-2 align-items-center pt-2 pb-3 px-md-0 px-3">
             <div class="col-md-4 col-12">
               <select
@@ -145,8 +145,8 @@
   </main>
 </template>
 <script>
-import bannerImg from "@/assets/img/products-banner.jpg";
 const { VITE_URL, VITE_PATH } = import.meta.env;
+import bannerImg from "@/assets/img/products-banner.jpg";
 import { mapActions, mapState } from "pinia";
 import cartStore from "@/stores/cart";
 import LoadingStore from "@/stores/LoadingStore.js";
@@ -176,7 +176,7 @@ export default {
           this.products = res.data.products;
           this.getCategories();
         })
-        .catch((err) => console.dir(err));
+        .catch((err) => alert(err.response.data.message));
     },
     filterProducts(page = 1) {
       let url = `${VITE_URL}/api/${VITE_PATH}/products?page=${page}`;
@@ -192,7 +192,7 @@ export default {
           this.$router.push({ path: "products", query: { category, page } });
           this.hideLoading();
         })
-        .catch((err) => console.dir(err));
+        .catch((err) => alert(err.response.data.message));
     },
     getCategories() {
       const categories = [
@@ -215,7 +215,7 @@ export default {
             width: 250,
           });
         })
-        .catch((err) => console.log(err.data));
+        .catch((err) => alert(err.response.data.message));
     },
     sortProducts() {
       let products =

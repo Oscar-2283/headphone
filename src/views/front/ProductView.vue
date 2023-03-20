@@ -206,7 +206,7 @@ import cartStore from "@/stores/cart";
 import LoadingStore from "@/stores/LoadingStore.js";
 import { Swiper, SwiperSlide } from "swiper/vue";
 import { Navigation } from "swiper";
-
+import Toast from "@/mixin/toast.js";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
@@ -247,7 +247,7 @@ export default {
           this.hideLoading();
         })
         .catch((err) => {
-          console.log(err);
+          alert(err.response.data.message);
         });
     },
     fetchAllProducts() {
@@ -257,7 +257,7 @@ export default {
           this.allProducts = res.data.products;
           this.hideLoading();
         })
-        .catch((err) => console.dir(err));
+        .catch((err) => alert(err.response.data.message));
     },
     addToCart(id, qty = 1) {
       const data = {
@@ -267,12 +267,19 @@ export default {
       this.$http
         .post(`${VITE_URL}/api/${VITE_PATH}/cart`, { data })
         .then((res) => {
-          console.log(res.data);
+          Toast.fire({
+            icon: "success",
+            title: res.data.message,
+            width: 250,
+          });
           this.getCart();
         })
-        .catch((err) => console.log(err.data));
+        .catch((err) => alert(err.response.data.message));
     },
     ...mapActions(cartStore, ["getCart"]),
+  },
+  created() {
+    this.showLoading();
   },
   components: {
     Swiper,
@@ -318,8 +325,11 @@ export default {
   },
   watch: {
     $route: {
-      handler() {
-        this.getProduct();
+      handler(val) {
+        this.showLoading();
+        if (val.name === "product") {
+          this.getProduct();
+        }
       },
       deep: true,
     },

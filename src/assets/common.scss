@@ -50,9 +50,15 @@ li {
   list-style: none;
 }
 .banner-title {
-  font-size: 56px;
-  font-weight: 500;
-  @media (min-width: 768px) {
+  font-weight: 700;
+  line-height: 1.2;
+  text-align: center;
+  font-size: 42px;
+  @media (min-width: 576px) {
+    text-align: left;
+    font-size: 56px;
+  }
+  @media (min-width: 1280px) {
     font-size: 80px;
   }
 }
@@ -143,6 +149,7 @@ textarea {
     transition: all 0.3s;
   }
 }
+
 .tgl {
   display: none;
   &:after,

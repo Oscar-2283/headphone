@@ -1,35 +1,21 @@
 <template>
   <main class="main" style="background: #fafafa">
     <div class="my-5 container">
-      <Progreess ref="progress"></Progreess>
-      <RouterView></RouterView>
+      <RouterView name="timeline" ref="progress"></RouterView>
+      <RouterView name="info"></RouterView>
     </div>
   </main>
 </template>
 <script>
-import gsap from "gsap";
-import ScrollTrigger from "gsap/ScrollTrigger";
-import Progreess from "@/components/PayProgress.vue";
-import { mapActions } from "pinia";
+import { mapActions, mapState } from "pinia";
 import LoadingStore from "@/stores/LoadingStore.js";
+import cartStore from "@/stores/cart";
 // import Toast from "@/mixin/toast.js";
-gsap.registerPlugin(ScrollTrigger);
+
 export default {
   methods: {
     ...mapActions(LoadingStore, ["hideLoading"]),
-    initGsap() {
-      document.querySelectorAll("[data-scroll]").forEach((item) => {
-        gsap.to(item, {
-          scrollTrigger: {
-            trigger: item,
-            start: "top 70%",
-            onEnter: () => {
-              item.classList.add("is-inview");
-            },
-          },
-        });
-      });
-    },
+
     setProgress(width, activeSteps) {
       const progressBar =
         this.$refs.progress.$el.querySelector(".progress-bar");
@@ -41,28 +27,31 @@ export default {
     },
     checkProgress() {
       const pathArray = this.$route.path.split("/");
-      const lastPath = pathArray[pathArray.length - 1];
-      console.log(lastPath);
+      const lastPath = pathArray[pathArray.length - 2];
+
       switch (lastPath) {
-        case "cart":
-          this.setProgress(33.33, [0]);
-          break;
         case "payOrder":
           this.setProgress(66.67, [0, 1]);
           break;
-        default:
+        case "checkOut":
           this.setProgress(100, [0, 1, 2]);
+          break;
+        default:
+          this.setProgress(33.33, [0]);
+
           break;
       }
     },
   },
   components: {
-    Progreess,
+    // Progreess,
   },
   mounted() {
-    this.initGsap();
     this.checkProgress();
     this.hideLoading();
+  },
+  computed: {
+    ...mapState(cartStore, ["carts"]),
   },
   watch: {
     $route() {
@@ -71,3 +60,29 @@ export default {
   },
 };
 </script>
+<style lang="scss">
+.orderList {
+  li {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+    padding: 5px 0;
+    gap: 10px;
+    border-bottom: 1px solid #dee2e6;
+    p {
+      &:first-child {
+        flex: 0 0 100%;
+        @media (min-width: 768px) {
+          flex: 0 0 150px;
+        }
+      }
+      &:last-child {
+        @media (max-width: 768px) {
+          font-size: 16px;
+        }
+      }
+    }
+  }
+}
+</style>

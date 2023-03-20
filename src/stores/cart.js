@@ -1,4 +1,5 @@
 import { defineStore } from "pinia";
+
 import axios from "axios";
 import Toast from "@/mixin/toast.js";
 const { VITE_URL, VITE_PATH } = import.meta.env;
@@ -23,7 +24,7 @@ const cartStore = defineStore("cart", {
           }
         })
         .catch((err) => {
-          this.$swal(err.response.data.message);
+          alert(err.response.data.message);
         });
     },
     updateCart(item) {
@@ -42,29 +43,37 @@ const cartStore = defineStore("cart", {
           this.getCart();
         })
         .catch((err) => {
-          console.dir(err);
+          alert(err.response.data.message);
         });
     },
     deleteCart(id) {
       axios
         .delete(`${VITE_URL}/api/${VITE_PATH}/cart/${id}`)
         .then((res) => {
-          console.log(res.data);
+          Toast.fire({
+            icon: "success",
+            title: res.data.message,
+            width: 250,
+          });
           this.getCart();
         })
         .catch((err) => {
-          console.dir(err);
+          alert(err.response.data.message);
         });
     },
     deleteAllCart() {
       axios
         .delete(`${VITE_URL}/api/${VITE_PATH}/carts`)
         .then((res) => {
-          console.log(res.data);
+          Toast.fire({
+            icon: "success",
+            title: res.data.message,
+            width: 250,
+          });
           this.getCart();
         })
         .catch((err) => {
-          console.dir(err);
+          alert(err.response.data.message);
         });
     },
     updateCartItemQty(item, num) {

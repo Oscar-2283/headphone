@@ -45,7 +45,7 @@ export default {
           this.article.content = article.content.replace(/&nbsp;/g, "<br>");
           this.hideLoading();
         })
-        .catch((err) => console.log(err.response.data.message));
+        .catch((err) => alert(err.response.data.message));
     },
   },
   mounted() {
@@ -65,8 +65,8 @@ export default {
   top: 0;
   left: 0;
   width: 100%;
-  height: 300px;
-  background-image: url("../assets/img/article-bg.jpg");
+  height: 400px;
+  background-image: url("../../assets/img/article-bg.jpg");
   background-size: cover;
   background-position: center 10%;
   z-index: -1;

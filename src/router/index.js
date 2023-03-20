@@ -19,6 +19,7 @@ const router = createRouter({
           children: [],
         },
         {
+          name: "product",
           path: "product/:id",
           component: () => import("../views/front/ProductView.vue"),
         },
@@ -40,15 +41,25 @@ const router = createRouter({
           children: [
             {
               path: "",
-              component: () => import("../views/front/CheckOrder.vue"),
+              components: {
+                timeline: () => import("../components/PayProgress.vue"),
+                info: () => import("../components/cart/CheckOrder.vue"),
+              },
             },
             {
-              path: "payOrder",
-              component: () => import("../views/front/PayOrder.vue"),
+              path: "payOrder/:id",
+
+              components: {
+                timeline: () => import("../components/PayProgress.vue"),
+                info: () => import("../components/cart/PayOrder.vue"),
+              },
             },
             {
               path: "checkOut/:id",
-              component: () => import("../views/front/CheckOut.vue"),
+              components: {
+                timeline: () => import("../components/PayProgress.vue"),
+                info: () => import("../components/cart/CheckOut.vue"),
+              },
             },
           ],
         },

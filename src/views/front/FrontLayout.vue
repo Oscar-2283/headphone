@@ -15,7 +15,7 @@ a.router-link-exact-active {
 .menuToggle {
   width: 18px;
   height: 12px;
-  margin: 18px auto 10px;
+  margin: 0px auto 16px;
   span::after,
   span::before {
     content: "";
@@ -116,7 +116,9 @@ a.router-link-exact-active {
                     shopping_cart
                   </span>
                 </button>
+
                 <span
+                  v-if="carts.length"
                   class="badge rounded-pill bg-danger text-white position-absolute top-0 end-0"
                   style="transform: translate(50%, -50%)"
                   >{{ carts.length }}</span

@@ -1,5 +1,7 @@
 <script>
 const { VITE_URL } = import.meta.env;
+import { mapActions } from "pinia";
+import LoadingStore from "@/stores/LoadingStore.js";
 import BackNav from "../../components/BackNav.vue";
 export default {
   data() {
@@ -7,10 +9,14 @@ export default {
       status: false,
     };
   },
+  methods: {
+    ...mapActions(LoadingStore, ["hideLoading", "showLoading"]),
+  },
   components: {
     BackNav,
   },
   mounted() {
+    this.hideLoading();
     const token = document.cookie.replace(
       /(?:(?:^|.*;\s*)myToken\s*=\s*([^;]*).*$)|^.*$/,
       "$1"

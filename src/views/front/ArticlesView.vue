@@ -18,7 +18,7 @@
           <router-link :to="`/articles/article/${article.id}`" class="card">
             <img
               :src="article.imageUrl"
-              class="card-img-top"
+              class="card-img-top obj-cover"
               style="height: 230px"
               alt=""
             />
@@ -68,9 +68,8 @@ export default {
           this.articles = articles;
           this.pagination = pagination;
           this.hideLoading();
-          console.log(this.articles);
         })
-        .catch((err) => console.log(err.response.data.message));
+        .catch((err) => alert(err.response.data.message));
     },
   },
   components: {

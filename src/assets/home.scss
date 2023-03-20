@@ -47,14 +47,14 @@
 }
 
 .home-coupon {
-  background: url("./img/bg2_mobile.png");
+  background-image: url("./img/bg2_mobile.png");
   background-position: center center;
   background-size: cover;
   background-repeat: no-repeat;
   padding-top: 60px;
   padding-bottom: 60px;
   @media (min-width: 768px) {
-    background: url("./img/bg2_web.png");
+    background-image: url("./img/bg2_web.png");
     padding-top: 128px;
     padding-bottom: 128px;
   }

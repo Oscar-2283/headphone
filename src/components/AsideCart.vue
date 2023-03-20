@@ -17,67 +17,82 @@
       ></button>
     </div>
     <div class="offcanvas-body">
-      <ul class="mb-2">
-        <li
-          class="grid g-4 align-items-center"
-          v-for="item in carts"
-          :key="item.id"
-        >
-          <div class="g-col-3 p-0">
-            <img
-              style="border-radius: 8px"
-              :src="item.product.imageUrl"
-              alt=""
-            />
-          </div>
-          <div class="g-col-4">
-            <h4 style="font-size: 16px">{{ item.product.title }}</h4>
-            <p style="font-size: 16px">${{ item.product.price }}</p>
-          </div>
-          <div class="g-col-4 d-flex carNum">
-            <select class="w-100" v-model="item.qty" @change="updateCart(item)">
-              <option v-for="i in 10" :key="'cart' + i" :value="i">
-                {{ i }}
-              </option>
-            </select>
-          </div>
-          <div class="g-col-1">
-            <button
-              class="btn btn-outline-danger btn-sm d-flex align-items-center"
-            >
-              <span
-                class="material-symbols-outlined"
-                style="cursor: pointer"
-                @click="() => deleteCart(item.id)"
+      <div v-if="carts[carts.length - 1]">
+        <ul class="mb-2">
+          <li
+            class="grid g-4 align-items-center"
+            v-for="item in carts"
+            :key="item.id"
+          >
+            <div class="g-col-3 p-0">
+              <img
+                style="border-radius: 8px"
+                :src="item.product.imageUrl"
+                alt=""
+              />
+            </div>
+            <div class="g-col-4">
+              <h4 style="font-size: 16px">{{ item.product.title }}</h4>
+              <p style="font-size: 16px">${{ item.product.price }}</p>
+            </div>
+            <div class="g-col-4 d-flex carNum">
+              <select
+                class="w-100"
+                v-model="item.qty"
+                @change="updateCart(item)"
               >
-                delete
-              </span>
-            </button>
+                <option v-for="i in 10" :key="'cart' + i" :value="i">
+                  {{ i }}
+                </option>
+              </select>
+            </div>
+            <div class="g-col-1">
+              <button
+                class="btn btn-outline-danger btn-sm d-flex align-items-center"
+              >
+                <span
+                  class="material-symbols-outlined"
+                  style="cursor: pointer"
+                  @click="() => deleteCart(item.id)"
+                >
+                  delete
+                </span>
+              </button>
+            </div>
+          </li>
+        </ul>
+        <hr />
+        <button
+          type="button"
+          class="btn btn-outline-danger"
+          style="font-size: 14px"
+          @click="deleteAllCart()"
+        >
+          清空購物車
+        </button>
+        <div class="mt-4">
+          <div class="d-flex justify-content-between w-100">
+            <h3>Total</h3>
+            <h3>${{ total }}</h3>
           </div>
-        </li>
-      </ul>
-      <hr />
-      <button
-        type="button"
-        class="btn btn-outline-danger"
-        style="font-size: 14px"
-        @click="deleteAllCart()"
-      >
-        清空購物車
-      </button>
-      <div class="mt-4">
-        <div class="d-flex justify-content-between w-100">
-          <h3>Total</h3>
-          <h3>${{ total }}</h3>
+        </div>
+
+        <div class="mt-4">
+          <RouterLink
+            to="/cart"
+            @click="() => closeAsideCart()"
+            class="btn btn-primary text-white py-3 px-8 w-100"
+            >前往結帳</RouterLink
+          >
         </div>
       </div>
-
-      <div class="mt-4">
+      <div v-else>
+        <h3 class="mt-5 text-center">購物車是空的</h3>
         <RouterLink
-          to="/cart"
-          @click="() => closeAsideCart()"
-          class="btn btn-primary text-white py-3 px-8 w-100"
-          >前往結帳</RouterLink
+          @click="closeAsideCart"
+          to="/products?category=全部&page=1"
+          class="btn btn1 btn-primary text-white w-100 mt-4"
+          >選購產品</RouterLink
         >
       </div>
     </div>
