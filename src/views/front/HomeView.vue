@@ -217,7 +217,7 @@ export default {
       randomProduct: {
         title: "",
         imageUrl: "",
-        instructions: "",
+        instructions: ["default"],
       },
     };
   },
