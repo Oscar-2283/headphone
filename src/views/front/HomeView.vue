@@ -34,7 +34,7 @@
             </div>
           </div>
           <div class="uncover">
-            <div v-for="i in 100" :key="i" class="uncover_slice"></div>
+            <div v-for="i in 3" :key="i" class="uncover_slice"></div>
           </div>
         </div>
       </div>
@@ -202,7 +202,7 @@
           </p>
         </div>
         <div class="uncover">
-          <div v-for="i in 100" :key="i" class="uncover_slice"></div>
+          <div v-for="i in 3" :key="i" class="uncover_slice"></div>
         </div>
       </div>
     </section>
