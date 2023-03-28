@@ -1,6 +1,6 @@
 <style lang="scss">
 a.router-link-exact-active {
-  color: #da6a19;
+  color: #da6a19 !important;
 }
 .header-shadow {
   box-shadow: 0 0 6px 0 #00000080;
@@ -91,10 +91,14 @@ a.router-link-exact-active {
                   >關於我們</RouterLink
                 >
               </li>
-
               <li>
                 <RouterLink @click="closeMenu" to="/articles" class="fs-5"
                   >好文分享</RouterLink
+                >
+              </li>
+              <li>
+                <RouterLink @click="closeMenu" to="/searchOrder" class="fs-5"
+                  >訂單查詢</RouterLink
                 >
               </li>
             </ul>
@@ -163,29 +167,40 @@ a.router-link-exact-active {
   <footer class="footer py-8">
     <div class="container">
       <div
-        class="d-flex flex-wrap justify-content-md-between justify-content-center align-items-center gap-3"
+        class="d-flex flex-wrap justify-content-center align-items-center gap-3"
       >
-        <div class="d-flex justify-content-center flex-wrap gap-5">
-          <RouterLink to="/products" class="text-white fs-lg-5 fs-md-6"
+        <div class="grid justify-content-center flex-wrap g-5">
+          <RouterLink
+            to="/products"
+            class="g-col-md-3 g-col-12 text-center text-white fs-5"
             >產品一覽</RouterLink
           >
-          <RouterLink to="/about" class="text-white fs-lg-5 fs-md-6"
+          <RouterLink
+            to="/about"
+            class="g-col-md-3 g-col-12 text-center text-white fs-5"
             >關於我們</RouterLink
           >
-          <RouterLink to="/" class="text-white fs-lg-5 fs-md-6"
+          <RouterLink
+            to="/articles"
+            class="g-col-md-3 g-col-12 text-center text-white fs-5"
             >好文分享</RouterLink
           >
-        </div>
-        <div class="w-full-md text-md-end text-center mb-4">
-          <a href="tel:04-1234-5678" class="fs-2 text-white mb-3 d-block"
-            >04-1234-5678</a
+          <RouterLink
+            to="/searchOrder"
+            class="g-col-md-3 g-col-12 text-center text-white fs-5"
+            >訂單查詢</RouterLink
           >
-          <h4 class="text-white mb-2">439台中市大安區興安路378號</h4>
-          <p class="text-white">營業時間:周一至周六 10:00~20:00</p>
         </div>
       </div>
+      <div>
+        <p class="w-100 text-center text-white fs-5 mt-3">
+          本網站僅供個人作品使用，不提供商業用途
+        </p>
+        <p class="w-100 text-center text-white fs-5 mt-1">
+          Copyright © 2023 oscar.
+        </p>
+      </div>
     </div>
-    <p class="w-100 text-center text-white fs-5 mt-md-3">Copyright@</p>
   </footer>
 </template>
 <script>

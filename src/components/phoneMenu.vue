@@ -25,6 +25,11 @@
             >好文分享</RouterLink
           >
         </li>
+        <li>
+          <RouterLink @click="() => closeMenu()" to="/searchOrder" class="fs-5"
+            >訂單查詢</RouterLink
+          >
+        </li>
       </ul>
       <div class="mt-auto">
         <a

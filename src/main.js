@@ -18,6 +18,8 @@ import AllRules from "@vee-validate/rules";
 import { localize, setLocale } from "@vee-validate/i18n";
 import zhTW from "@vee-validate/i18n/dist/locale/zh_TW.json";
 
+import "aos/dist/aos.css";
+import "aos/dist/aos.js";
 import { date, currency } from "./methods/filters";
 import fade from "@/components/PageFade.vue";
 

@@ -63,6 +63,10 @@ const router = createRouter({
             },
           ],
         },
+        {
+          path: "searchOrder",
+          component: () => import("../views/front/SearchOrder.vue"),
+        },
       ],
     },
     {

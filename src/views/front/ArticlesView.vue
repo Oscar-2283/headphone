@@ -16,12 +16,14 @@
           :key="article.id"
         >
           <router-link :to="`/articles/article/${article.id}`" class="card">
-            <img
-              :src="article.imageUrl"
-              class="card-img-top obj-cover"
-              style="height: 230px"
-              alt=""
-            />
+            <div class="card-image">
+              <img
+                :src="article.imageUrl"
+                class="card-img-top obj-cover"
+                style="height: 230px"
+                alt=""
+              />
+            </div>
             <div class="card-body d-flex flex-column">
               <h5 class="text-title mb-3">
                 {{ article.title }}

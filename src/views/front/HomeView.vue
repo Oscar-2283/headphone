@@ -1,6 +1,6 @@
 <template>
   <main class="main overflow-hidden">
-    <section class="home-banner">
+    <section class="home-banner revealBox">
       <div class="pt-8 pb-md-8 pb-5">
         <div class="container">
           <div class="row g-5 justify-content-between align-items-center">
@@ -9,7 +9,12 @@
                 {{ randomProduct.title }}
               </h1>
               <p class="p2 text-text mb-4 max-w-482md">
-                {{ randomProduct.instructions[0] }}
+                {{
+                  randomProduct.instructions &&
+                  randomProduct.instructions.length > 0
+                    ? randomProduct.instructions[0]
+                    : ""
+                }}
               </p>
               <div class="px-5 px-md-0">
                 <RouterLink
@@ -28,6 +33,9 @@
               />
             </div>
           </div>
+          <div class="uncover">
+            <div v-for="i in 100" :key="i" class="uncover_slice"></div>
+          </div>
         </div>
       </div>
     </section>
@@ -35,11 +43,20 @@
     <section class="py-md-10 py-8">
       <div class="container">
         <div class="row gx-4 gy-6 align-items-center">
-          <div class="col-md-6 col-12">
+          <div
+            data-aos="fade-right"
+            data-aos-anchor-placement="bottom-bottom"
+            class="col-md-6 col-12"
+          >
             <img class="w-100" src="/src/assets/img/img.png" alt="" />
           </div>
           <div class="col-md-6 col-12">
-            <div class="ms-md-auto max-w-526">
+            <div
+              data-aos="fade-left"
+              data-aos-anchor-placement="bottom-bottom"
+              data-aos-delay="300"
+              class="ms-md-auto max-w-526"
+            >
               <h1 class="mb-4 text-title text-md-start text-center">
                 關於我們
               </h1>
@@ -62,11 +79,13 @@
     <!-- product -->
     <section class="product py-md-10 py-6">
       <div class="container">
-        <h1 class="text-center mb-md-8 mb-6">產品一覽</h1>
+        <h1 data-aos="fade-up" class="text-center mb-md-8 mb-6">產品一覽</h1>
         <div class="row gx-4 gy-5">
-          <div class="col-xl-3 col-md-6 col-12">
+          <div data-aos="fade-up" class="col-xl-3 col-md-6 col-12">
             <div class="card">
-              <img src="/src/assets/img/img_product1.jpg" alt="" />
+              <div class="card-image">
+                <img src="/src/assets/img/img_product1.jpg" alt="" />
+              </div>
               <div class="pt-4 pb-5 d-flex justify-content-center">
                 <div class="w-100 px-5">
                   <div class="mb-4">
@@ -85,9 +104,15 @@
               </div>
             </div>
           </div>
-          <div class="col-xl-3 col-md-6 col-12">
+          <div
+            data-aos="fade-up"
+            data-aos-delay="150"
+            class="col-xl-3 col-md-6 col-12"
+          >
             <div class="card">
-              <img src="/src/assets/img/img_product2.png" alt="" />
+              <div class="card-image">
+                <img src="/src/assets/img/img_product2.png" alt="" />
+              </div>
               <div class="pt-4 pb-5 d-flex justify-content-center">
                 <div class="w-100 px-5">
                   <div class="mb-4">
@@ -106,9 +131,15 @@
               </div>
             </div>
           </div>
-          <div class="col-xl-3 col-md-6 col-12">
+          <div
+            data-aos="fade-up"
+            data-aos-delay="300"
+            class="col-xl-3 col-md-6 col-12"
+          >
             <div class="card">
-              <img src="/src/assets/img/img_product3.jpg" alt="" />
+              <div class="card-image">
+                <img src="/src/assets/img/img_product3.jpg" alt="" />
+              </div>
               <div class="pt-4 pb-5 d-flex justify-content-center">
                 <div class="w-100 px-5">
                   <div class="mb-4">
@@ -127,9 +158,15 @@
               </div>
             </div>
           </div>
-          <div class="col-xl-3 col-md-6 col-12">
+          <div
+            data-aos="fade-up"
+            data-aos-delay="450"
+            class="col-xl-3 col-md-6 col-12"
+          >
             <div class="card">
-              <img src="/src/assets/img/img_product4.jpg" alt="" />
+              <div class="card-image">
+                <img src="/src/assets/img/img_product4.jpg" alt="" />
+              </div>
               <div class="pt-4 pb-5 d-flex justify-content-center">
                 <div class="w-100 px-5">
                   <div class="mb-4">
@@ -152,8 +189,8 @@
       </div>
     </section>
     <section class="py-md-10 py-8">
-      <div class="container">
-        <div class="home-intro">
+      <div class="container revealBox">
+        <div class="home-intro revealItem">
           <h1
             class="text-white mb-6"
             style="max-width: 411px; letter-spacing: 0.04em"
@@ -164,13 +201,16 @@
             位于台北市中心的AudioAvenue是高端耳機、耳塞和音頻配件的首選商店。我们擁有大型展廳和視聽室，您可以在这里觀看並體驗我们的各種產品。來我們店內，我們有最專業的人員,讓您體驗到最優質的服務。
           </p>
         </div>
+        <div class="uncover">
+          <div v-for="i in 100" :key="i" class="uncover_slice"></div>
+        </div>
       </div>
     </section>
     <section>
       <div class="home-coupon">
         <div class="container">
           <div class="d-flex justify-content-center align-items-center">
-            <div class="coupon-body">
+            <div data-aos="fade-up" class="coupon-body">
               <h1 class="coupon-body-title">歡慶開幕</h1>
               <p class="coupon-body-text">
                 按下
@@ -209,8 +249,11 @@
 const { VITE_URL, VITE_PATH } = import.meta.env;
 import { mapActions } from "pinia";
 import LoadingStore from "@/stores/LoadingStore.js";
+import gsapMixin from "@/mixin/gsapMixin";
+import AOS from "aos";
 
 export default {
+  mixins: [gsapMixin],
   data() {
     return {
       products: [],
@@ -223,15 +266,17 @@ export default {
   },
   methods: {
     ...mapActions(LoadingStore, ["hideLoading", "showLoading"]),
-    getProducts() {
-      this.$http
-        .get(`${VITE_URL}/api/${VITE_PATH}/products/all`)
-        .then((res) => {
-          this.hideLoading();
-          this.products = res.data.products;
-          this.randomProduct = this.products[Math.floor(Math.random() * 10)];
-        })
-        .catch((err) => alert(err.response.data.message));
+    async getProducts() {
+      try {
+        const res = await this.$http.get(
+          `${VITE_URL}/api/${VITE_PATH}/products/all`
+        );
+        this.hideLoading();
+        this.products = res.data.products;
+        this.randomProduct = this.products[Math.floor(Math.random() * 10)];
+      } catch (err) {
+        alert(err.response.data.message);
+      }
     },
 
     onSubscribe() {
@@ -244,8 +289,11 @@ export default {
   created() {
     this.showLoading();
   },
-  mounted() {
-    this.getProducts();
+  async mounted() {
+    await this.getProducts();
+    AOS.init({ duration: 1000, once: true });
+    this.initGsap();
+    this.GsapReval();
   },
 };
 </script>

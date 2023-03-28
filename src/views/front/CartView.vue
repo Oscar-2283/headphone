@@ -60,29 +60,3 @@ export default {
   },
 };
 </script>
-<style lang="scss">
-.orderList {
-  li {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    margin-bottom: 10px;
-    padding: 5px 0;
-    gap: 10px;
-    border-bottom: 1px solid #dee2e6;
-    p {
-      &:first-child {
-        flex: 0 0 100%;
-        @media (min-width: 768px) {
-          flex: 0 0 150px;
-        }
-      }
-      &:last-child {
-        @media (max-width: 768px) {
-          font-size: 16px;
-        }
-      }
-    }
-  }
-}
-</style>

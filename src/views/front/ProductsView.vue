@@ -94,13 +94,18 @@
                 class="col-lg-4 col-md-6 col-12"
                 v-for="product in filteredProducts"
                 :key="product.id"
+                data-aos="fade-up"
               >
                 <RouterLink
                   :to="`/product/${product.id}`"
                   class="card overflow-hidden"
                 >
                   <div style="position: relative; background: #f1f1f1">
-                    <img :src="product.imageUrl" class="card-img-top" alt="" />
+                    <img
+                      :src="product.imageUrl"
+                      class="card-img-top card-img"
+                      alt=""
+                    />
                     <button
                       type="button"
                       @click.prevent="() => addToCart(product.id)"
@@ -152,6 +157,7 @@ import cartStore from "@/stores/cart";
 import LoadingStore from "@/stores/LoadingStore.js";
 import pagination from "@/components/PaginationView.vue";
 import Toast from "@/mixin/toast.js";
+import AOS from "aos";
 export default {
   inject: ["currency"],
   data() {
@@ -169,30 +175,36 @@ export default {
   },
   methods: {
     ...mapActions(LoadingStore, ["showLoading", "hideLoading"]),
-    getProducts() {
-      this.$http
-        .get(`${VITE_URL}/api/${VITE_PATH}/products/all`)
-        .then((res) => {
-          this.products = res.data.products;
-          this.getCategories();
-        })
-        .catch((err) => alert(err.response.data.message));
+    async getProducts() {
+      //使用async關鍵字
+      try {
+        const res = await this.$http.get(
+          `${VITE_URL}/api/${VITE_PATH}/products/all`
+        );
+        this.products = res.data.products;
+        await this.getCategories(); //使用await關鍵字等待非同步函式執行完畢
+      } catch (err) {
+        //使用try...catch語句來捕捉錯誤
+        alert(err.response.data.message);
+      }
     },
-    filterProducts(page = 1) {
+    async filterProducts(page = 1) {
+      //使用async關鍵字
       let url = `${VITE_URL}/api/${VITE_PATH}/products?page=${page}`;
       const category = this.$route.query.category;
       if (category && category !== "全部") {
         url = `${VITE_URL}/api/${VITE_PATH}/products?page=${page}&category=${category}`;
       }
-      this.$http
-        .get(url)
-        .then((res) => {
-          this.filteredProducts = res.data.products;
-          this.pagination = res.data.pagination;
-          this.$router.push({ path: "products", query: { category, page } });
-          this.hideLoading();
-        })
-        .catch((err) => alert(err.response.data.message));
+      try {
+        const res = await this.$http.get(url); //使用await關鍵字等待非同步函式執行完畢
+        this.filteredProducts = res.data.products;
+        this.pagination = res.data.pagination;
+        this.$router.push({ path: "products", query: { category, page } });
+        this.hideLoading();
+      } catch (err) {
+        //使用try...catch語句來捕捉錯誤
+        alert(err.response.data.message);
+      }
     },
     getCategories() {
       const categories = [
@@ -200,22 +212,26 @@ export default {
       ];
       this.categories = categories;
     },
-    addToCart(id, qty = 1) {
+    async addToCart(id, qty = 1) {
+      //使用async關鍵字
       const data = {
         product_id: id,
         qty,
       };
-      this.$http
-        .post(`${VITE_URL}/api/${VITE_PATH}/cart`, { data })
-        .then((res) => {
-          this.getCart();
-          Toast.fire({
-            icon: "success",
-            title: res.data.message,
-            width: 250,
-          });
-        })
-        .catch((err) => alert(err.response.data.message));
+      try {
+        const res = await this.$http.post(`${VITE_URL}/api/${VITE_PATH}/cart`, {
+          data,
+        }); //使用await關鍵字等待非同步函式執行完畢
+        this.getCart();
+        Toast.fire({
+          icon: "success",
+          title: res.data.message,
+          width: 250,
+        });
+      } catch (err) {
+        //使用try...catch語句來捕捉錯誤
+        alert(err.response.data.message);
+      }
     },
     sortProducts() {
       let products =
@@ -244,9 +260,14 @@ export default {
   components: {
     pagination,
   },
-  mounted() {
-    this.getProducts();
-    this.filterProducts();
+  async mounted() {
+    try {
+      await this.getProducts();
+      await this.filterProducts();
+    } catch (err) {
+      alert(err.response.data.message);
+    }
+    AOS.init({ duration: 1000, once: true });
   },
   computed: {
     ...mapState(cartStore, ["carts"]),
@@ -309,6 +330,16 @@ export default {
       transform: translateX(-50%);
       width: 0;
       height: 0;
+    }
+  }
+}
+.card {
+  .card-img {
+    transition: all 0.5s;
+  }
+  &:hover {
+    .card-img {
+      transform: translateY(-10%);
     }
   }
 }

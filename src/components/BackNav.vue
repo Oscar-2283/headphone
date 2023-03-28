@@ -38,9 +38,6 @@
             class="nav-link w-100 text-center"
             >登出</a
           >
-          <router-link to="/articles" class="nav-link w-100 text-center"
-            >貼文測試</router-link
-          >
         </div>
       </div>
     </div>
