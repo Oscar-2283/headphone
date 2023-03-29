@@ -23,6 +23,7 @@
     </div>
   </div>
 </template>
+
 <script>
 const { VITE_URL, VITE_PATH } = import.meta.env;
 import { mapActions } from "pinia";
@@ -53,6 +54,7 @@ export default {
   },
 };
 </script>
+
 <style lang="scss" scoped>
 .container {
   @media (max-width: 576px) {

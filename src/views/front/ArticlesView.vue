@@ -15,7 +15,7 @@
           v-for="article in articles"
           :key="article.id"
         >
-          <router-link :to="`/articles/article/${article.id}`" class="card">
+          <routerLink :to="`/articles/article/${article.id}`" class="card">
             <div class="card-image">
               <img
                 :src="article.imageUrl"
@@ -32,21 +32,22 @@
                 {{ article.description }}
               </p>
             </div>
-          </router-link>
+          </routerLink>
         </div>
-        <pagination
+        <PaginationView
           v-if="pagination.total_pages !== 1"
           :pages="pagination"
           @updatePage="getArticles"
-        ></pagination>
+        />
       </div>
     </div>
   </div>
 </template>
+
 <script>
 import bannerImg from "@/assets/img/article-banner.jpg";
 const { VITE_URL, VITE_PATH } = import.meta.env;
-import pagination from "@/components/PaginationView.vue";
+import PaginationView from "@/components/PaginationView.vue";
 import { mapActions } from "pinia";
 
 import LoadingStore from "@/stores/LoadingStore.js";
@@ -75,7 +76,7 @@ export default {
     },
   },
   components: {
-    pagination,
+    PaginationView,
   },
   mounted() {
     this.showLoading();
@@ -83,6 +84,7 @@ export default {
   },
 };
 </script>
+
 <style lang="scss" scope>
 .text-limit {
   display: -webkit-box;

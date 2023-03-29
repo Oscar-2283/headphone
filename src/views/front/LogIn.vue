@@ -1,29 +1,3 @@
-<script>
-const { VITE_URL } = import.meta.env;
-export default {
-  data() {
-    return {
-      user: {
-        username: "",
-        password: "",
-      },
-    };
-  },
-  methods: {
-    login() {
-      this.$http
-        .post(`${VITE_URL}/admin/signin`, this.user)
-        .then((res) => {
-          const { token, expired } = res.data;
-          document.cookie = `myToken=${token}; expires=${new Date(expired)};`;
-          this.$router.push("/admin/products");
-        })
-        .catch((err) => this.$swal(err.response.data.message));
-    },
-  },
-};
-</script>
-<style lang="scss"></style>
 <template>
   <div class="container">
     <div class="row justify-content-center align-items-center vh-100">
@@ -65,3 +39,29 @@ export default {
     </div>
   </div>
 </template>
+
+<script>
+const { VITE_URL } = import.meta.env;
+export default {
+  data() {
+    return {
+      user: {
+        username: "",
+        password: "",
+      },
+    };
+  },
+  methods: {
+    login() {
+      this.$http
+        .post(`${VITE_URL}/admin/signin`, this.user)
+        .then((res) => {
+          const { token, expired } = res.data;
+          document.cookie = `myToken=${token}; expires=${new Date(expired)};`;
+          this.$router.push("/admin/products");
+        })
+        .catch((err) => this.$swal(err.response.data.message));
+    },
+  },
+};
+</script>

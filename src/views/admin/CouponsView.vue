@@ -4,18 +4,14 @@
     :can-cancel="false"
     :color="'#007bff'"
     :is-full-page="true"
-  ></VLoading>
-  <DeleteModal
-    ref="delModal"
-    :item="tempCoupon"
-    @delItem="deleteCoupon"
-  ></DeleteModal>
+  />
+  <DeleteModal ref="delModal" :item="tempCoupon" @delItem="deleteCoupon" />
   <CouponModal
     ref="couponModal"
     :coupon="tempCoupon"
     :isNew="isNew"
     @updateCoupon="updateCoupon"
-  ></CouponModal>
+  />
   <div class="container">
     <div class="text-end mt-4">
       <button class="btn btn-primary" type="button" @click="openModal(true)">
@@ -72,8 +68,9 @@
       </tbody>
     </table>
   </div>
-  <pagination :pages="pagination" @updatePage="getCoupons"></pagination>
+  <pagination :pages="pagination" @updatePage="getCoupons" />
 </template>
+
 <script>
 const { VITE_URL, VITE_PATH } = import.meta.env;
 import pagination from "../../components/PaginationView.vue";
@@ -113,6 +110,7 @@ export default {
       if (isNew) {
         this.tempCoupon = {
           due_date: new Date().getTime() / 1000,
+          is_enabled: 0,
         };
 
         this.isNew = true;
@@ -140,8 +138,12 @@ export default {
             this.$swal(res.data.message);
           })
           .catch((err) => {
+            let requied = "";
             this.isLoading = false;
-            this.$swal(err.response.data.message);
+            err.response.data.message.forEach((item) => {
+              requied += item + "\n";
+            });
+            this.$swal(requied);
           });
       } else {
         this.$http
@@ -155,8 +157,12 @@ export default {
             this.$swal(res.data.message);
           })
           .catch((err) => {
+            let requied = "";
             this.isLoading = false;
-            this.$swal(err.response.data.message);
+            err.response.data.message.forEach((item) => {
+              requied += item + "\n";
+            });
+            this.$swal(requied);
           });
       }
     },

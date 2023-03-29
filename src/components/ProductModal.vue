@@ -45,10 +45,7 @@
                   @change="uploadFile()"
                 />
               </div>
-              <img
-                class="img-fluid"
-                :src="productData.imageUrl"
-              /><!-- 延伸技巧，多圖 -->
+              <img class="img-fluid" :src="productData.imageUrl" /><!-- 多圖 -->
               <div class="mt-5" v-if="productData.imageUrl">
                 <div v-for="(image, key) in productData.imagesUrl" :key="key">
                   <input
@@ -296,6 +293,7 @@
     </div>
   </div>
 </template>
+
 <script>
 const { VITE_URL, VITE_PATH } = import.meta.env;
 import Modal from "bootstrap/js/dist/modal";

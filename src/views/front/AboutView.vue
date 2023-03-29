@@ -76,6 +76,7 @@
     </div>
   </div>
 </template>
+
 <script>
 import bannerImg from "@/assets/img/about-banner.jpg";
 import { mapActions } from "pinia";
@@ -101,6 +102,7 @@ export default {
   },
 };
 </script>
+
 <style lang="scss">
 .text-bg {
   &::before {

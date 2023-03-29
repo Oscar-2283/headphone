@@ -199,6 +199,7 @@
     </div>
   </main>
 </template>
+
 <script>
 const { VITE_URL, VITE_PATH } = import.meta.env;
 import { mapActions, mapState } from "pinia";
@@ -336,6 +337,7 @@ export default {
   },
 };
 </script>
+
 <style lang="scss" scoped>
 .swiper-slide {
   height: auto;

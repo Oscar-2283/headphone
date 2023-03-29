@@ -4,18 +4,14 @@
     :can-cancel="false"
     :color="'#007bff'"
     :is-full-page="true"
-  ></VLoading>
-  <DeleteModal
-    ref="delModal"
-    :item="tempProduct"
-    @delItem="deleteProduct"
-  ></DeleteModal>
+  />
+  <DeleteModal ref="delModal" :item="tempProduct" @delItem="deleteProduct" />
   <ProductModal
     ref="productModalRef"
     :tempProduct="tempProduct"
     :isNew="isNew"
     @updateProduct="updateProduct"
-  ></ProductModal>
+  />
   <div class="container">
     <div class="text-end mt-4">
       <button class="btn btn-primary" type="button" @click="openModal(true)">
@@ -76,11 +72,12 @@
       </tbody>
     </table>
   </div>
-  <pagination :pages="pagination" @updatePage="getProducts"></pagination>
+  <PaginationView :pages="pagination" @updatePage="getProducts" />
 </template>
+
 <script>
 const { VITE_URL, VITE_PATH } = import.meta.env;
-import pagination from "../../components/PaginationView.vue";
+import PaginationView from "../../components/PaginationView.vue";
 import ProductModal from "../../components/ProductModal.vue";
 import DeleteModal from "../../components/DeleteModal.vue";
 export default {
@@ -154,8 +151,12 @@ export default {
             this.$swal(res.data.message);
           })
           .catch((err) => {
+            let requied = "";
             this.isLoading = false;
-            this.$swal(err.response.data.message);
+            err.response.data.message.forEach((item) => {
+              requied += item + "\n";
+            });
+            this.$swal(requied);
           });
       } else {
         this.$http
@@ -169,8 +170,12 @@ export default {
             this.$swal(res.data.message);
           })
           .catch((err) => {
+            let requied = "";
             this.isLoading = false;
-            this.$swal(err.response.data.message);
+            err.response.data.message.forEach((item) => {
+              requied += item + "\n";
+            });
+            this.$swal(requied);
           });
       }
     },
@@ -193,7 +198,7 @@ export default {
     },
   },
   components: {
-    pagination,
+    PaginationView,
     ProductModal,
     DeleteModal,
   },

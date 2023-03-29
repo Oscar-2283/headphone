@@ -103,6 +103,7 @@
     </div>
   </div>
 </template>
+
 <script>
 const { VITE_URL, VITE_PATH } = import.meta.env;
 import bannerImg from "@/assets/img/order-banner.jpg";
@@ -159,6 +160,7 @@ export default {
   },
 };
 </script>
+
 <style lang="scss" scoped>
 .search {
   position: relative;

@@ -5,16 +5,8 @@
     :color="'#007bff'"
     :is-full-page="true"
   ></VLoading>
-  <OrderModal
-    ref="orderModal"
-    :order="tempOrder"
-    @updateOrder="updateOrder"
-  ></OrderModal>
-  <DeleteModal
-    ref="delModal"
-    :item="tempOrder"
-    @delItem="deleteOrder"
-  ></DeleteModal>
+  <OrderModal ref="orderModal" :order="tempOrder" @updateOrder="updateOrder" />
+  <DeleteModal ref="delModal" :item="tempOrder" @delItem="deleteOrder" />
   <div class="container">
     <div class="grid gap-3 mt-4" style="align-items: stretch">
       <div
@@ -85,15 +77,12 @@
       </div>
     </div>
   </div>
-  <pagination
-    :pages="pagination"
-    @updatePage="getOrders"
-    class="py-5"
-  ></pagination>
+  <PaginationView :pages="pagination" @updatePage="getOrders" class="py-5" />
 </template>
+
 <script>
 const { VITE_URL, VITE_PATH } = import.meta.env;
-import pagination from "../../components/PaginationView.vue";
+import PaginationView from "../../components/PaginationView.vue";
 import OrderModal from "../../components/OrderModal.vue";
 import DeleteModal from "../../components/DeleteModal.vue";
 export default {
@@ -166,7 +155,7 @@ export default {
     },
   },
   components: {
-    pagination,
+    PaginationView,
     OrderModal,
     DeleteModal,
   },

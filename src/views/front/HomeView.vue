@@ -224,15 +224,15 @@
                       id="email"
                       name="email"
                       type="email"
-                      class="form-control"
+                      class="form-control email-color"
                       :class="{ 'is-invalid': errors['email'] }"
                       rules="email|required"
                       placeholder="請輸入 Email"
-                    ></VField>
+                    />
                     <ErrorMessage
                       name="email"
                       class="invalid-feedback scribe-invaild"
-                    ></ErrorMessage>
+                    />
                   </div>
 
                   <button class="btn btn-primary text-white">訂閱</button>
@@ -245,6 +245,7 @@
     </section>
   </main>
 </template>
+
 <script>
 const { VITE_URL, VITE_PATH } = import.meta.env;
 import { mapActions } from "pinia";
@@ -297,6 +298,7 @@ export default {
   },
 };
 </script>
+
 <style lang="scss">
 .swal2-html-container {
   font-size: 30px;
@@ -318,6 +320,11 @@ export default {
   width: 100%;
   @media (min-width: 768px) {
     width: auto;
+  }
+}
+.email-color {
+  &::placeholder {
+    color: white;
   }
 }
 </style>

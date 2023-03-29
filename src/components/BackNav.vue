@@ -4,8 +4,8 @@
     style="width: 250px"
   >
     <div class="container-fluid flex-column">
-      <router-link to="/" class="navbar-brand w-100 text-center m-0"
-        >首頁</router-link
+      <routerLink to="/" class="navbar-brand w-100 text-center m-0"
+        >首頁</routerLink
       >
       <button
         class="navbar-toggler"
@@ -20,17 +20,20 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav d-block">
-          <router-link to="/admin/products" class="nav-link w-100 text-center"
-            >產品</router-link
+          <routerLink
+            to="/admin"
+            ref="productLink"
+            class="nav-link w-100 text-center"
+            >產品</routerLink
           >
-          <router-link to="/admin/orders" class="nav-link w-100 text-center"
-            >訂單</router-link
+          <routerLink to="/admin/orders" class="nav-link w-100 text-center"
+            >訂單</routerLink
           >
-          <router-link to="/admin/coupons" class="nav-link w-100 text-center"
-            >優惠券</router-link
+          <routerLink to="/admin/coupons" class="nav-link w-100 text-center"
+            >優惠券</routerLink
           >
-          <router-link to="/admin/article" class="nav-link w-100 text-center"
-            >貼文</router-link
+          <routerLink to="/admin/article" class="nav-link w-100 text-center"
+            >貼文</routerLink
           >
           <a
             href="#"
@@ -43,6 +46,7 @@
     </div>
   </nav>
 </template>
+
 <script>
 export default {
   methods: {
@@ -55,6 +59,19 @@ export default {
           }
         })
         .catch((err) => this.$swal(err.response.data.message));
+    },
+  },
+  mounted() {
+    console.log(this.$route.name);
+  },
+  watch: {
+    $route: {
+      handler(val) {
+        if (val.name !== "adminProduct") {
+          this.$refs.productLink.$el.classList.remove("active");
+        }
+      },
+      deep: true,
     },
   },
 };

@@ -10,11 +10,11 @@ export default defineStore("LoadingStore", {
       document.body.classList.add("overflow-hidden");
     },
 
-    hideLoading() {
+    hideLoading(time = 0) {
       setTimeout(() => {
         this.isLoading = false;
         document.body.classList.remove("overflow-hidden");
-      }, 300);
+      }, time);
     },
   },
 });

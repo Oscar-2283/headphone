@@ -41,7 +41,7 @@
               ><VField
                 id="tel"
                 name="電話"
-                type="text"
+                type="tel"
                 class="form-control"
                 :class="{ 'is-invalid': errors['電話'] }"
                 rules="required|min:8|max:10|numeric"
@@ -159,6 +159,7 @@
     </div>
   </div>
 </template>
+
 <script>
 const { VITE_URL, VITE_PATH } = import.meta.env;
 import { mapActions, mapState } from "pinia";

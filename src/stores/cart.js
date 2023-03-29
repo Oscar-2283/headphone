@@ -1,8 +1,8 @@
 import { defineStore } from "pinia";
-
 import axios from "axios";
 import Toast from "@/mixin/toast.js";
 const { VITE_URL, VITE_PATH } = import.meta.env;
+
 const cartStore = defineStore("cart", {
   state: () => {
     return {

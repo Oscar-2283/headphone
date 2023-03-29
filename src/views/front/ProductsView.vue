@@ -133,11 +133,11 @@
                 </RouterLink>
               </div>
             </div>
-            <pagination
+            <PaginationView
               v-if="pagination.total_pages !== 1"
               :pages="pagination"
               @updatePage="filterProducts"
-            ></pagination>
+            />
           </div>
           <div v-else>
             <div class="text-center mt-4">
@@ -149,15 +149,17 @@
     </div>
   </main>
 </template>
+
 <script>
 const { VITE_URL, VITE_PATH } = import.meta.env;
 import bannerImg from "@/assets/img/products-banner.jpg";
 import { mapActions, mapState } from "pinia";
 import cartStore from "@/stores/cart";
 import LoadingStore from "@/stores/LoadingStore.js";
-import pagination from "@/components/PaginationView.vue";
+import PaginationView from "@/components/PaginationView.vue";
 import Toast from "@/mixin/toast.js";
 import AOS from "aos";
+
 export default {
   inject: ["currency"],
   data() {
@@ -176,33 +178,29 @@ export default {
   methods: {
     ...mapActions(LoadingStore, ["showLoading", "hideLoading"]),
     async getProducts() {
-      //使用async關鍵字
       try {
         const res = await this.$http.get(
           `${VITE_URL}/api/${VITE_PATH}/products/all`
         );
         this.products = res.data.products;
-        await this.getCategories(); //使用await關鍵字等待非同步函式執行完畢
+        await this.getCategories();
       } catch (err) {
-        //使用try...catch語句來捕捉錯誤
         alert(err.response.data.message);
       }
     },
     async filterProducts(page = 1) {
-      //使用async關鍵字
       let url = `${VITE_URL}/api/${VITE_PATH}/products?page=${page}`;
       const category = this.$route.query.category;
       if (category && category !== "全部") {
         url = `${VITE_URL}/api/${VITE_PATH}/products?page=${page}&category=${category}`;
       }
       try {
-        const res = await this.$http.get(url); //使用await關鍵字等待非同步函式執行完畢
+        const res = await this.$http.get(url);
         this.filteredProducts = res.data.products;
         this.pagination = res.data.pagination;
         this.$router.push({ path: "products", query: { category, page } });
         this.hideLoading();
       } catch (err) {
-        //使用try...catch語句來捕捉錯誤
         alert(err.response.data.message);
       }
     },
@@ -213,7 +211,6 @@ export default {
       this.categories = categories;
     },
     async addToCart(id, qty = 1) {
-      //使用async關鍵字
       const data = {
         product_id: id,
         qty,
@@ -221,7 +218,7 @@ export default {
       try {
         const res = await this.$http.post(`${VITE_URL}/api/${VITE_PATH}/cart`, {
           data,
-        }); //使用await關鍵字等待非同步函式執行完畢
+        });
         this.getCart();
         Toast.fire({
           icon: "success",
@@ -229,7 +226,6 @@ export default {
           width: 250,
         });
       } catch (err) {
-        //使用try...catch語句來捕捉錯誤
         alert(err.response.data.message);
       }
     },
@@ -258,7 +254,7 @@ export default {
     ...mapActions(cartStore, ["getCart"]),
   },
   components: {
-    pagination,
+    PaginationView,
   },
   async mounted() {
     try {
@@ -291,7 +287,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.selected {
+a.router-link-exact-active {
+  color: #222222 !important;
+}
+a.selected {
   color: #da6a19 !important;
 }
 .text-text {
@@ -304,10 +303,8 @@ export default {
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
 }
+
 .product-menu {
-  a.router-link-exact-active {
-    color: #222222;
-  }
   .product-title {
     position: relative;
     background: #f1f1f1;

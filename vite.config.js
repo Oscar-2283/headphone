@@ -4,12 +4,13 @@ import { defineConfig } from "vite";
 import vue from "@vitejs/plugin-vue";
 
 // https://vitejs.dev/config/
+/* global process */
 export default defineConfig({
   build: {
-    chunkSizeWarningLimit: 1000, // 設定 chunk 大於 1000 kBs 時顯示警告
+    chunkSizeWarningLimit: 1000,
   },
   plugins: [vue()],
-  base: "/headphone/",
+  base: process.env.NODE_ENV === "production" ? "/headphone/" : "/",
   resolve: {
     alias: {
       "@": fileURLToPath(new URL("./src", import.meta.url)),

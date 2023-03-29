@@ -9,6 +9,7 @@ const router = createRouter({
       children: [
         {
           path: "",
+          name: "home",
           component: () => import("../views/front/HomeView.vue"),
           children: [],
         },
@@ -67,6 +68,10 @@ const router = createRouter({
           path: "searchOrder",
           component: () => import("../views/front/SearchOrder.vue"),
         },
+        {
+          path: "/:pathMatch(.*)*",
+          component: () => import("../views/front/NotFound.vue"),
+        },
       ],
     },
     {
@@ -78,7 +83,8 @@ const router = createRouter({
       component: () => import("../views/admin/BackLayout.vue"),
       children: [
         {
-          path: "products",
+          name: "adminProduct",
+          path: "",
           component: () => import("../views/admin/ProductsView.vue"),
         },
         {
@@ -94,6 +100,13 @@ const router = createRouter({
           component: () => import("../views/admin/ArticleEdit.vue"),
         },
       ],
+    },
+
+    {
+      path: "/admin/:pathMatch(.*)*",
+      redirect: {
+        name: "adminProduct",
+      },
     },
   ],
   linkActiveClass: "active",

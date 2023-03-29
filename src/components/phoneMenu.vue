@@ -44,6 +44,7 @@
     </div>
   </div>
 </template>
+
 <script>
 export default {
   methods: {
@@ -53,6 +54,7 @@ export default {
   },
 };
 </script>
+
 <style lang="scss">
 .phoneMenuBody {
   min-width: 375px;

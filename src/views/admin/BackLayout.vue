@@ -1,3 +1,11 @@
+<template>
+  <BackNav />
+
+  <div style="padding-left: 250px">
+    <routerView v-if="status" />
+  </div>
+</template>
+
 <script>
 const { VITE_URL } = import.meta.env;
 import { mapActions } from "pinia";
@@ -35,6 +43,7 @@ export default {
   },
 };
 </script>
+
 <style lang="scss">
 .btn {
   &:hover {
@@ -42,10 +51,3 @@ export default {
   }
 }
 </style>
-<template>
-  <BackNav></BackNav>
-
-  <div style="padding-left: 250px">
-    <router-view v-if="status"></router-view>
-  </div>
-</template>

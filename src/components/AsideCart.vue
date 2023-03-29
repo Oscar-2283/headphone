@@ -33,7 +33,7 @@
             </div>
             <div class="g-col-4">
               <h4 style="font-size: 16px">{{ item.product.title }}</h4>
-              <p style="font-size: 16px">${{ item.product.price }}</p>
+              <p style="font-size: 16px">${{ currency(item.product.price) }}</p>
             </div>
             <div class="g-col-4 d-flex carNum">
               <select
@@ -73,7 +73,7 @@
         <div class="mt-4">
           <div class="d-flex justify-content-between w-100">
             <h3>Total</h3>
-            <h3>${{ total }}</h3>
+            <h3>${{ currency(total) }}</h3>
           </div>
         </div>
 
@@ -98,11 +98,13 @@
     </div>
   </div>
 </template>
+
 <script>
 import { mapActions, mapState } from "pinia";
 import cartStore from "../stores/cart";
 import Offcanvas from "bootstrap/js/dist/offcanvas";
 export default {
+  inject: ["currency"],
   data() {
     return {
       bsCart: "",
@@ -128,6 +130,7 @@ export default {
   },
 };
 </script>
+
 <style lang="scss">
 .aslideCart {
   top: 0;

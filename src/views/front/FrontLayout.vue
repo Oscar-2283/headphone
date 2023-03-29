@@ -1,58 +1,3 @@
-<style lang="scss">
-a.router-link-exact-active {
-  color: #da6a19 !important;
-}
-.header-shadow {
-  box-shadow: 0 0 6px 0 #00000080;
-}
-.phoneMenu {
-  transform: translateX(100%);
-  transition: transform 0.3s ease-in-out;
-  &.show {
-    transform: translateX(0%);
-  }
-}
-.menuToggle {
-  width: 18px;
-  height: 12px;
-  margin: 0px auto 16px;
-  span::after,
-  span::before {
-    content: "";
-    position: absolute;
-    left: 0;
-    top: -6px;
-  }
-  span::after {
-    top: 6px;
-  }
-  span,
-  span::after,
-  span::before {
-    width: 100%;
-    height: 1px;
-    background-color: #222222;
-    transition: all 0.3s;
-    backface-visibility: hidden;
-    border-radius: 1px;
-  }
-  span {
-    position: relative;
-    display: block;
-  }
-  &.show {
-    span {
-      background-color: transparent;
-      &::before {
-        transform: rotate(45deg) translate(3px, 5px);
-      }
-      &::after {
-        transform: rotate(-45deg) translate(3px, -6px);
-      }
-    }
-  }
-}
-</style>
 <template>
   <header
     class="position-fixed top-0 w-100 bg-white header"
@@ -149,19 +94,19 @@ a.router-link-exact-active {
             class="offcanvas-backdrop fade show"
             style="backdrop-filter: blur(8px); background: rgba(0, 0, 0, 0.5)"
           ></div>
-          <phoneMenu
+          <PhoneMenu
             ref="phoneMenu"
             class="phoneMenu"
             :class="{ show: showMenu }"
             @closeMenu="closeMenu"
-          ></phoneMenu>
+          />
         </div>
       </div>
     </nav>
     <div></div>
   </header>
 
-  <AsideCart ref="cart"></AsideCart>
+  <AsideCart ref="cart" />
 
   <RouterView />
   <footer class="footer py-8">
@@ -203,9 +148,10 @@ a.router-link-exact-active {
     </div>
   </footer>
 </template>
+
 <script>
 import AsideCart from "@/components/AsideCart.vue";
-import phoneMenu from "@/components/phoneMenu.vue";
+import PhoneMenu from "@/components/PhoneMenu.vue";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
 import { mapActions, mapState } from "pinia";
@@ -248,7 +194,7 @@ export default {
   },
   components: {
     AsideCart,
-    phoneMenu,
+    PhoneMenu,
   },
   mounted() {
     this.scrollTrigger();
@@ -265,3 +211,59 @@ export default {
   },
 };
 </script>
+
+<style lang="scss">
+a.router-link-exact-active {
+  color: #da6a19 !important;
+}
+.header-shadow {
+  box-shadow: 0 0 6px 0 #00000080;
+}
+.phoneMenu {
+  transform: translateX(100%);
+  transition: transform 0.3s ease-in-out;
+  &.show {
+    transform: translateX(0%);
+  }
+}
+.menuToggle {
+  width: 18px;
+  height: 12px;
+  margin: 0px auto 16px;
+  span::after,
+  span::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: -6px;
+  }
+  span::after {
+    top: 6px;
+  }
+  span,
+  span::after,
+  span::before {
+    width: 100%;
+    height: 1px;
+    background-color: #222222;
+    transition: all 0.3s;
+    backface-visibility: hidden;
+    border-radius: 1px;
+  }
+  span {
+    position: relative;
+    display: block;
+  }
+  &.show {
+    span {
+      background-color: transparent;
+      &::before {
+        transform: rotate(45deg) translate(3px, 5px);
+      }
+      &::after {
+        transform: rotate(-45deg) translate(3px, -6px);
+      }
+    }
+  }
+}
+</style>

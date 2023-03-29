@@ -1,21 +1,20 @@
 <template>
   <main class="main" style="background: #fafafa">
     <div class="my-5 container">
-      <RouterView name="timeline" ref="progress"></RouterView>
-      <RouterView name="info"></RouterView>
+      <RouterView name="timeline" ref="progress" />
+      <RouterView name="info" />
     </div>
   </main>
 </template>
+
 <script>
 import { mapActions, mapState } from "pinia";
 import LoadingStore from "@/stores/LoadingStore.js";
 import cartStore from "@/stores/cart";
-// import Toast from "@/mixin/toast.js";
 
 export default {
   methods: {
     ...mapActions(LoadingStore, ["hideLoading"]),
-
     setProgress(width, activeSteps) {
       const progressBar =
         this.$refs.progress.$el.querySelector(".progress-bar");
@@ -42,9 +41,6 @@ export default {
           break;
       }
     },
-  },
-  components: {
-    // Progreess,
   },
   mounted() {
     this.checkProgress();

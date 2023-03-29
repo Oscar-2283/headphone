@@ -168,6 +168,7 @@
     </div>
   </div>
 </template>
+
 <script>
 const { VITE_URL, VITE_PATH } = import.meta.env;
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
@@ -235,6 +236,7 @@ export default {
   },
 };
 </script>
+
 <style lang="scss">
 .editor {
   ul {

@@ -23,7 +23,9 @@
         </div>
         <div class="modal-body">
           是否刪除
-          <strong class="text-danger">{{ item.title }}</strong>
+          <strong class="text-danger">{{
+            item.title ? item.title : "訂單編號" + item.id
+          }}</strong>
           (刪除後將無法恢復)。
         </div>
         <div class="modal-footer">
@@ -46,8 +48,8 @@
     </div>
   </div>
 </template>
+
 <script>
-// const { VITE_URL, VITE_PATH } = import.meta.env;
 import Modal from "bootstrap/js/dist/modal";
 export default {
   props: ["item"],

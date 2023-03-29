@@ -71,11 +71,12 @@
       </tbody>
     </table>
   </div>
-  <pagination :pages="pagination" @updatePage="getArticles"></pagination>
+  <PaginationView :pages="pagination" @updatePage="getArticles" />
 </template>
+
 <script>
 const { VITE_URL, VITE_PATH } = import.meta.env;
-import pagination from "../../components/PaginationView.vue";
+import PaginationView from "../../components/PaginationView.vue";
 import ArticleModal from "../../components/ArticleModal.vue";
 import DeleteModal from "../../components/DeleteModal.vue";
 export default {
@@ -208,7 +209,7 @@ export default {
     },
   },
   components: {
-    pagination,
+    PaginationView,
     ArticleModal,
     DeleteModal,
   },

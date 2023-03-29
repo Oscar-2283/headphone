@@ -39,69 +39,82 @@
             <p class="col">{{ order.message }}</p>
           </li>
         </ul>
-
-        <div class="row gx-5 mt-4">
-          <h3 class="mb-4">付款資訊</h3>
-          <div class="col-md-6 col-12">
-            <h4>付款方式</h4>
-          </div>
-          <div class="col-md-6 col-12">
-            <div class="form-control d-flex">
-              <input
-                class="form-check-input"
-                type="radio"
-                name="pay"
-                id="cod"
-                value="貨到付款"
-                checked
-              />
-              <label class="form-check-label ms-2 w-100" for="cod">
-                貨到付款
-              </label>
+        <VForm v-slot="{ errors }" @submit="payOrder">
+          <div class="row gx-5 mt-4">
+            <h3 class="mb-4">付款資訊</h3>
+            <div class="col-md-6 col-12">
+              <h4>付款方式</h4>
             </div>
-            <!-- <div class="form-control mt-4 d-flex">
-              <input
-                class="form-check-input"
-                type="radio"
-                name="pay"
-                id="credit"
-                value="credit"
+            <div class="col-md-6 col-12">
+              <div class="form-control d-flex">
+                <VField
+                  class="form-check-input"
+                  type="radio"
+                  name="pay"
+                  id="cod"
+                  value="貨到付款"
+                  rules="required"
+                  v-model="order.paymethod"
+                  checked
+                />
+                <label class="form-check-label ms-2 w-100" for="cod">
+                  貨到付款
+                </label>
+              </div>
+              <div class="form-control mt-4 d-flex">
+                <VField
+                  class="form-check-input"
+                  type="radio"
+                  name="pay"
+                  id="credit"
+                  value="信用卡"
+                  v-model="order.paymethod"
+                />
+                <label class="form-check-label ms-2 w-100" for="credit">
+                  信用卡
+                </label>
+              </div>
+            </div>
+          </div>
+          <div v-if="order.paymethod === '信用卡'" class="row gx-5 mt-4">
+            <div class="mb-3 col-md-6 col-12">
+              <label for="credit-number" class="form-label">號碼</label
+              ><VField
+                type="number"
+                class="form-control"
+                name="號碼"
+                id="credit-number"
+                placeholder="8163421927531021"
+                rules="required|min:16|max:16|numeric"
+                :class="{ 'is-invalid': errors['號碼'] }"
+                required
               />
-              <label class="form-check-label ms-2 w-100" for="credit">
-                信用卡
-              </label>
-            </div> -->
+              <ErrorMessage name="號碼" class="invalid-feedback"></ErrorMessage>
+            </div>
+            <div class="mb-3 col-md-6 col-12">
+              <label for="credit-last" class="form-label">後三碼</label
+              ><VField
+                type="number"
+                class="form-control"
+                name="後三碼"
+                id="credit-last"
+                placeholder="188"
+                rules="required|min:3|max:3|numeric"
+                :class="{ 'is-invalid': errors['後三碼'] }"
+                required
+              />
+              <ErrorMessage
+                name="後三碼"
+                class="invalid-feedback"
+              ></ErrorMessage>
+            </div>
           </div>
-        </div>
-        <!-- <div class="row gx-5 mt-4">
-          <div class="mb-3 col-md-6 col-12">
-            <label for="credit-number" class="form-label">號碼</label
-            ><input
-              type="number"
-              class="form-control"
-              id="credit-number"
-              placeholder="216615651"
-            />
+          <div class="mt-4 text-end">
+            <button type="submit" class="btn btn-outline-primary">
+              確認付款
+            </button>
           </div>
-          <div class="mb-3 col-md-6 col-12">
-            <label for="credit-last" class="form-label">後三碼</label
-            ><input
-              type="number"
-              class="form-control"
-              id="credit-last"
-              placeholder="188"
-            />
-          </div>
-        </div> -->
-        <div class="mt-4 text-end">
-          <button
-            type="submit"
-            class="btn btn-outline-primary"
-            @click.prevent="payOrder()"
-          >
-            確認付款
-          </button>
-        </div>
+        </VForm>
       </div>
     </div>
     <div class="col-lg-4 col-12">
@@ -150,6 +163,7 @@ export default {
         email: "",
         name: "",
         tel: "",
+        paymethod: "",
       },
     };
   },
