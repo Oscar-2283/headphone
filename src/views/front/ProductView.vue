@@ -342,6 +342,10 @@ export default {
 .swiper-slide {
   height: auto;
 }
+::v-deep .swiper-button-next,
+::v-deep .swiper-button-prev {
+  color: #fc6e07;
+}
 .nav-tabs {
   .nav-link {
     color: #233749;
@@ -358,9 +362,5 @@ export default {
       }
     }
   }
-}
-.swiper-button-next,
-.swiper-button-prev {
-  color: #fc6e07;
 }
 </style>

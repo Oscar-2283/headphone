@@ -11,7 +11,7 @@ import "bootstrap";
 import CKEditor from "@ckeditor/ckeditor5-vue";
 import VueSweetalert2 from "vue-sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";
-import "./assets/all.scss";
+import "./assets/scss/all.scss";
 
 import { defineRule, Form, Field, ErrorMessage, configure } from "vee-validate";
 import AllRules from "@vee-validate/rules";
