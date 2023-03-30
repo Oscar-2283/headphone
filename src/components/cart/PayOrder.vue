@@ -174,6 +174,7 @@ export default {
         .then((res) => {
           const { order } = res.data;
           this.order = order;
+          console.log(this.order);
         })
         .catch((err) => alert(err.response.data.message));
     },

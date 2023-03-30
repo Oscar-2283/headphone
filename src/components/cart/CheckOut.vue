@@ -1,6 +1,18 @@
 <template>
   <div class="row g-5 mt-2 justify-content-center">
     <div class="col-sm-8 col-12">
+      <div class="d-flex justify-content-center mb-2">
+        <span
+          class="material-symbols-outlined text-success"
+          style="font-size: 64px"
+        >
+          check_circle
+        </span>
+      </div>
+      <p class="fz-6 text-success text-center mb-2">訂單成立 已完成付款</p>
+      <p class="fz-6 text-success text-center">感謝您的支持</p>
+    </div>
+    <div class="col-sm-8 col-12">
       <div class="border border-dark-subtle p-5 bg-white">
         <h3 class="mb-4">訂單資訊</h3>
         <ul class="orderList">
@@ -49,6 +61,13 @@
             <p>備註</p>
 
             <p class="col">{{ order.message }}</p>
+          </li>
+          <li style="border: none" class="justify-content-end">
+            <routerLink
+              to="/products?category=全部&page=1"
+              class="btn btn-primary text-white"
+              >繼續選購商品</routerLink
+            >
           </li>
         </ul>
       </div>

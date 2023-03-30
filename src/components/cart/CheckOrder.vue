@@ -6,7 +6,7 @@
           <div class="row gx-5">
             <h3 class="mb-4">訂購資訊</h3>
             <div class="mb-3 col-lg-6 col-12">
-              <label for="姓名" class="form-label">姓名</label>
+              <label for="姓名" class="form-label">姓名 *</label>
               <VField
                 id="name"
                 name="姓名"
@@ -20,7 +20,7 @@
               <ErrorMessage name="姓名" class="invalid-feedback"></ErrorMessage>
             </div>
             <div class="mb-3 col-lg-6 col-12">
-              <label for="email" class="form-label">Email</label>
+              <label for="email" class="form-label">Email *</label>
               <VField
                 id="email"
                 name="email"
@@ -37,7 +37,7 @@
               ></ErrorMessage>
             </div>
             <div class="mb-3 col-lg-6 col-12">
-              <label for="tel" class="form-label">電話</label
+              <label for="tel" class="form-label">電話 *</label
               ><VField
                 id="tel"
                 name="電話"
@@ -51,7 +51,7 @@
               <ErrorMessage name="電話" class="invalid-feedback"></ErrorMessage>
             </div>
             <div class="mb-3 col-12">
-              <label for="address" class="form-label">地址</label
+              <label for="address" class="form-label">地址 *</label
               ><VField
                 id="address"
                 name="地址"
