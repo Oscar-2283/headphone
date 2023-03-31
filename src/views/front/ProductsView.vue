@@ -12,32 +12,6 @@
             class="p-2 border border-2 rounded-3 position-sticky product-menu"
             style="top: 12%"
           >
-            <!-- <div class="mb-4 d-md-block d-none">
-              <div class="product-title">
-                <h4>價格</h4>
-              </div>
-              <div class="d-flex gap-3">
-                <div>
-                  <input
-                    class="w-100 border-bottom border-dark bg-transparent p-2"
-                    type="number"
-                    v-model="minPrice"
-                    @change="sortProducts"
-                    placeholder="最低"
-                  />
-                </div>
-                <span>-</span>
-                <div>
-                  <input
-                    class="w-100 border-bottom border-dark bg-transparent p-2"
-                    type="number"
-                    v-model="maxPrice"
-                    @change="sortProducts"
-                    placeholder="最高"
-                  />
-                </div>
-              </div>
-            </div> -->
             <div>
               <div class="product-title">
                 <h4>商品類型</h4>
@@ -165,7 +139,6 @@ export default {
     return {
       bannerImg: bannerImg,
       products: [],
-      // productList: [],
       filteredProducts: [],
       selectedCategory: "" || this.$route.query.category,
       categories: [],
@@ -230,34 +203,12 @@ export default {
       }
     },
     sortProducts() {
-      // const itemsPerPage = 10;
       let products =
         this.$route.query.category === "全部"
           ? this.products
           : this.products.filter(
               (product) => product.category === this.$route.query.category
             );
-      // if (this.minPrice !== null) {
-      //   products = products.filter((product) => product.price >= this.minPrice);
-      // }
-      // if (this.maxPrice !== null) {
-      //   products = products.filter((product) => product.price <= this.maxPrice);
-      // }
-      // const productCount = products.length;
-      // let pagination = 1;
-
-      // if (productCount > itemsPerPage) {
-      //   pagination = Math.ceil(productCount / itemsPerPage);
-      //   for (let i = 0; i < pagination; i++) {
-      //     const pageStartIndex = i * itemsPerPage;
-      //     const pageEndIndex = (i + 1) * itemsPerPage;
-      //     const pageProducts = products.slice(pageStartIndex, pageEndIndex);
-      //     this.productList.push(pageProducts);
-      //   }
-      // }
-      // this.productList = products;
-      // this.pagination.total_pages = pagination;
-
       if (this.selectedSort === "價格高到低") {
         this.filteredProducts = products.sort((a, b) => b.price - a.price);
       } else if (this.selectedSort === "價格低到高") {
