@@ -72,7 +72,6 @@ export default {
 
       parallaxElemsY.forEach((elem) => {
         const parallaxY = window.innerHeight * elem.dataset.parallaxY;
-        console.log(parallaxY);
         gsap.to(elem, {
           scrollTrigger: {
             trigger: elem,

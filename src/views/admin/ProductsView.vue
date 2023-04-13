@@ -31,7 +31,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="item in products" :key="item.id">
+        <tr v-for="(item, num) in products" :key="item.id">
           <td>
             <input
               :id="item.title"
@@ -46,7 +46,9 @@
           </td>
           <td>{{ item.category }}</td>
           <td>{{ item.title }}</td>
-          <td><img class="img-fluid" :src="item.imageUrl" /></td>
+          <td>
+            <img class="img-fluid" :src="item.imageUrl" :alt="'image' + num" />
+          </td>
           <td class="text-right">{{ currency(item.origin_price) }}</td>
           <td class="text-right">{{ currency(item.price) }}</td>
 

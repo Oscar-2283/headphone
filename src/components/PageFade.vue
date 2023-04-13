@@ -7,6 +7,7 @@
     </div>
   </transition>
 </template>
+
 <script>
 import { gsap, Power4 } from "gsap";
 export default {
@@ -38,4 +39,3 @@ export default {
   },
 };
 </script>
-<style lang="scss" scoped></style>

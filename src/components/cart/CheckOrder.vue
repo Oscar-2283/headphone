@@ -98,7 +98,7 @@
                 <img
                   style="border-radius: 8px"
                   :src="item.product.imageUrl"
-                  alt=""
+                  :alt="item.product.title"
                 />
               </div>
               <div>

@@ -18,7 +18,7 @@
                 data-parallax-y=".05"
                 class="w-100"
                 src="@/assets/img/intro2.jpg"
-                alt=""
+                alt="aboutImg1"
               />
               <div data-parallax-y=".05" class="slideDown"></div>
             </div>
@@ -51,7 +51,7 @@
                 data-parallax-y="-.05"
                 class="w-100"
                 src="@/assets/img/intro1.jpg"
-                alt=""
+                alt="aboutImg2"
               />
               <div data-parallax-y="-.05" class="slideDown"></div>
             </div>

@@ -78,7 +78,7 @@
                     <img
                       :src="product.imageUrl"
                       class="card-img-top card-img"
-                      alt=""
+                      :alt="product.title"
                     />
                     <button
                       type="button"

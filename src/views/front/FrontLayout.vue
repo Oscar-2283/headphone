@@ -16,7 +16,7 @@
                 srcset="/src/assets/img/logo_web.png"
                 media="(min-width:768px)"
               />
-              <img src="/src/assets/img/logo_mobile.png" alt="" />
+              <img src="/src/assets/img/logo_mobile.png" alt="logo" />
             </picture>
           </RouterLink>
           <div class="d-md-flex align-item-center gap-xl-6 gap-4">

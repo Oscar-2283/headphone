@@ -7,7 +7,7 @@
             <img
               class="w-100 object-fit-cover"
               :src="product.imageUrl"
-              alt=""
+              :alt="product.title"
               style="object-fit: cover"
             />
           </div>
@@ -167,7 +167,11 @@
               class="card overflow-hidden"
             >
               <div style="position: relative; background: #f1f1f1">
-                <img :src="product.imageUrl" class="card-img-top" alt="" />
+                <img
+                  :src="product.imageUrl"
+                  class="card-img-top"
+                  :alt="product.title"
+                />
                 <button
                   type="button"
                   @click.prevent="() => addToCart(product.id)"

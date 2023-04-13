@@ -21,7 +21,7 @@
                 :src="article.imageUrl"
                 class="card-img-top obj-cover"
                 style="height: 230px"
-                alt=""
+                :alt="article.title"
               />
             </div>
             <div class="card-body d-flex flex-column">

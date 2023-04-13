@@ -13,7 +13,7 @@
           ></div>
 
           <div>
-            <img :src="article.imageUrl" alt="" />
+            <img :src="article.imageUrl" :alt="article.title" />
           </div>
           <RouterLink to="/articles" class="btn btn-primary text-white mt-5"
             >回上一頁</RouterLink

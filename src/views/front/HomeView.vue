@@ -29,7 +29,7 @@
               <img
                 class="mx-auto d-block w-100"
                 :src="randomProduct.imageUrl"
-                alt=""
+                :alt="randomProduct.title"
               />
             </div>
           </div>
@@ -48,7 +48,7 @@
             data-aos-anchor-placement="bottom-bottom"
             class="col-md-6 col-12"
           >
-            <img class="w-100" src="/src/assets/img/img.png" alt="" />
+            <img class="w-100" src="/src/assets/img/img.png" alt="aboutImg" />
           </div>
           <div class="col-md-6 col-12">
             <div
@@ -84,12 +84,15 @@
           <div data-aos="fade-up" class="col-xl-3 col-md-6 col-12">
             <div class="card">
               <div class="card-image">
-                <img src="/src/assets/img/img_product1.jpg" alt="" />
+                <img
+                  src="/src/assets/img/img_product1.jpg"
+                  alt="有線耳罩式耳機"
+                />
               </div>
               <div class="pt-4 pb-5 d-flex justify-content-center">
                 <div class="w-100 px-5">
                   <div class="mb-4">
-                    <h3 class="text-center">|無線|</h3>
+                    <h3 class="text-center">|有線|</h3>
                     <h3 class="text-center">耳罩式耳機</h3>
                   </div>
                   <RouterLink
@@ -111,7 +114,10 @@
           >
             <div class="card">
               <div class="card-image">
-                <img src="/src/assets/img/img_product2.png" alt="" />
+                <img
+                  src="/src/assets/img/img_product2.png"
+                  alt="無線耳罩式耳機"
+                />
               </div>
               <div class="pt-4 pb-5 d-flex justify-content-center">
                 <div class="w-100 px-5">
@@ -138,13 +144,16 @@
           >
             <div class="card">
               <div class="card-image">
-                <img src="/src/assets/img/img_product3.jpg" alt="" />
+                <img
+                  src="/src/assets/img/img_product3.jpg"
+                  alt="有線耳塞式耳機"
+                />
               </div>
               <div class="pt-4 pb-5 d-flex justify-content-center">
                 <div class="w-100 px-5">
                   <div class="mb-4">
-                    <h3 class="text-center">|無線|</h3>
-                    <h3 class="text-center">耳罩式耳機</h3>
+                    <h3 class="text-center">|有線|</h3>
+                    <h3 class="text-center">耳塞式耳機</h3>
                   </div>
                   <RouterLink
                     to="/products?category=有線耳塞式耳機&page=1"
@@ -165,13 +174,16 @@
           >
             <div class="card">
               <div class="card-image">
-                <img src="/src/assets/img/img_product4.jpg" alt="" />
+                <img
+                  src="/src/assets/img/img_product4.jpg"
+                  alt="無線耳塞式耳機"
+                />
               </div>
               <div class="pt-4 pb-5 d-flex justify-content-center">
                 <div class="w-100 px-5">
                   <div class="mb-4">
                     <h3 class="text-center">|無線|</h3>
-                    <h3 class="text-center">耳罩式耳機</h3>
+                    <h3 class="text-center">耳塞式耳機</h3>
                   </div>
                   <RouterLink
                     to="/products?category=無線耳塞式耳機&page=1"
@@ -324,7 +336,7 @@ export default {
 }
 .email-color {
   &::placeholder {
-    color: white;
+    color: white !important;
   }
 }
 </style>

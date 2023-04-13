@@ -34,7 +34,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="item in articles" :key="item.id">
+        <tr v-for="(item, num) in articles" :key="item.id">
           <td>
             <input
               :id="item.title"
@@ -47,7 +47,9 @@
           </td>
           <td>{{ item.title }}</td>
           <td>{{ item.description }}</td>
-          <td><img class="img-fluid" :src="item.imageUrl" /></td>
+          <td>
+            <img class="img-fluid" :src="item.imageUrl" :alt="'image' + num" />
+          </td>
           <td>{{ date(item.create_at) }}</td>
           <td>
             <div class="btn-group">

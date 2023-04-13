@@ -61,9 +61,7 @@ export default {
         .catch((err) => this.$swal(err.response.data.message));
     },
   },
-  mounted() {
-    console.log(this.$route.name);
-  },
+  mounted() {},
   watch: {
     $route: {
       handler(val) {
