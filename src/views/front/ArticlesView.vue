@@ -5,7 +5,6 @@
       style="height: 500px"
       :style="{ backgroundImage: `url(${bannerImg})` }"
     >
-      >
       <h1 class="text-white banner-title">好文分享</h1>
     </div>
     <div class="container py-8">
