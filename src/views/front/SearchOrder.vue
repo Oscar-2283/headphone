@@ -1,10 +1,7 @@
 <template>
   <div class="ovf-hidden">
-    <div
-      class="banner-img d-flex justify-content-center align-items-center"
-      style="height: 500px"
-      :style="{ backgroundImage: `url(${bannerImg})` }"
-    >
+    <div class="banner-img d-flex justify-content-center align-items-center" style="height: 500px"
+      :style="{ backgroundImage: `url(${bannerImg})` }">
       <h1 class="text-white banner-title">訂單查詢</h1>
     </div>
     <div class="container py-8">
@@ -12,12 +9,7 @@
         <div class="col-sm-8 col-12">
           <h3 class="text-center text-primary mb-3">請輸入您的訂單編號</h3>
           <div class="search">
-            <input
-              type="text"
-              v-model.lazy="orderId"
-              class="searchTerm h-100 w-100"
-              placeholder="請輸入訂單號碼"
-            />
+            <input type="text" v-model.lazy="orderId" class="searchTerm h-100 w-100" placeholder="請輸入訂單號碼" />
             <button type="button" class="searchButton" @click="getOrder()">
               <span class="material-symbols-outlined"> search </span>
             </button>
@@ -57,13 +49,10 @@
                 <li>
                   <p class="align-middle">付款狀態</p>
                   <p>
-                    <strong
-                      :class="{
-                        'text-success': order.is_paid,
-                        'text-danger': !order.is_paid,
-                      }"
-                      >{{ order.is_paid ? "已付款" : "未付款" }}</strong
-                    >
+                    <strong :class="{
+                      'text-success': order.is_paid,
+                      'text-danger': !order.is_paid,
+                    }">{{ order.is_paid ? "已付款" : "未付款" }}</strong>
                   </p>
                 </li>
                 <li>
@@ -87,7 +76,7 @@
           <div class="remind">
             <div class="remind-body">
               <ul class="remind-text">
-                <li>訂單編號範例：-N778fIMygF_0rRl8LlH</li>
+                <li>訂單編號範例：-NUfsIa7o6DMDuincHBI</li>
                 <li>
                   如購買過程及收到商品有任何問題，歡迎聯繫我們，
                   我們會盡快回覆您。
@@ -136,6 +125,15 @@ export default {
         .then((res) => {
           this.hideLoading();
           const { order } = res.data;
+          if (!order) {
+            Toast.fire({
+              icon: "error",
+              title: "您所查看的訂單編號不存在",
+              width: 400,
+              position: "center",
+              timer: 3000,
+            });
+          }
           this.orderStaus = true;
           this.order = order;
         })
@@ -165,6 +163,7 @@ export default {
   position: relative;
   display: flex;
   margin: 0 auto;
+
   .searchTerm {
     border: 3px solid #da6a19;
     border-right: none;
@@ -172,6 +171,7 @@ export default {
     height: 20px;
     border-radius: 5px 0 0 5px;
     outline: none;
+
     &:focus {
       color: #da6a19;
     }
@@ -191,6 +191,7 @@ export default {
     align-items: center;
   }
 }
+
 .remind-text {
   li {
     font-size: 16px;
